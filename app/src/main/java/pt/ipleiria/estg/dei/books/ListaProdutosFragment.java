@@ -88,34 +88,6 @@ public class ListaProdutosFragment extends Fragment implements LivrosListener {
         }
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_pesquisa, menu);
-
-        MenuItem itemPesquisa = menu.findItem(R.id.itemPesquisa);
-        searchView = (SearchView) itemPesquisa.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String newText) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                ArrayList <Livro> tempListaLivros = new ArrayList<>();
-                for (Livro l: SingletonGestorLivros.getInstance(getContext()).getLivrosBD()) {
-                    if (l.getTitulo().toLowerCase().contains(newText.toLowerCase())) {
-                        tempListaLivros.add(l);
-                    }
-                }
-                lvLivros.setAdapter(new ListaLivrosAdaptador(getContext(), tempListaLivros));
-                return true;
-            }
-        });
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
     //Este método tem como função atualizar os livros
     @Override
     public void onRefreshListaLivros(ArrayList<Livro> listaLivros) {

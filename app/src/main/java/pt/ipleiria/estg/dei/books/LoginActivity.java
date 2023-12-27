@@ -1,9 +1,5 @@
 package pt.ipleiria.estg.dei.books;
 
-import static android.provider.ContactsContract.Intents.Insert.EMAIL;
-
-import static pt.ipleiria.estg.dei.books.Modelo.SingletonGestorLivros.TOKEN;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,9 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import pt.ipleiria.estg.dei.books.MainActivity;
 import pt.ipleiria.estg.dei.books.Modelo.SingletonGestorLivros;
-import pt.ipleiria.estg.dei.books.R;
 import pt.ipleiria.estg.dei.books.listeners.LoginListener;
 
 public class LoginActivity extends AppCompatActivity implements LoginListener {
@@ -56,6 +50,10 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
             return false;
 
         return pass.length()>=MIN_PASS;
+    }
+    public void onSignupButtonClick (View view){
+        Intent intent = new Intent(this, SignupActivity.class);
+        startActivity(intent);
     }
 
     public void onClickLogin(View view) {

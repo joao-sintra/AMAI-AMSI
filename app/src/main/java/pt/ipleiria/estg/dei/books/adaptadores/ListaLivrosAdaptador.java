@@ -47,7 +47,7 @@ public class ListaLivrosAdaptador extends BaseAdapter {
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
         if(view == null){
-            view = inflater.inflate(R.layout.item_lista_produto, null);
+            view = inflater.inflate(R.layout.item_lista_produtos, null);
         }
 
         //otimização

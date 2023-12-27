@@ -127,24 +127,6 @@ public class DetalhesLivroActivity extends AppCompatActivity implements LivroLis
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgCapa);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(livro!=null) {
-          getMenuInflater().inflate(R.menu.menu_remover, menu);
-          return super.onCreateOptionsMenu(menu);
-        }
-        return false;
-    }
-
-    //gerir as opções do menu
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==R.id.itemRemover)
-            dialogRemover();
-        return super.onOptionsItemSelected(item);
-    }
-
     //confirmação de ação remover livro
     private void dialogRemover() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
