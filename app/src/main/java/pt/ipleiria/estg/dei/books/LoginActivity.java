@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import pt.ipleiria.estg.dei.books.Modelo.SingletonGestorLivros;
 import pt.ipleiria.estg.dei.books.listeners.LoginListener;
 
 public class LoginActivity extends AppCompatActivity implements LoginListener {
@@ -25,8 +24,6 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
     private final int MIN_PASS=4;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
         //Inicialização
         etEmail=findViewById(R.id.etEmail);
         etPassword=findViewById(R.id.etPassword);
-        SingletonGestorLivros.getInstance(getApplicationContext()).setLoginListener(this);
+        /*SingletonGestorLivros.getInstance(getApplicationContext()).setLoginListener(this);*/
     }
 
     private boolean isEmailValido(String email){
@@ -68,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
             etPassword.setError("Password Inválida!");
             return;
         }
-        SingletonGestorLivros.getInstance(this).loginAPI(email, pass,getApplicationContext());
+        /*SingletonGestorLivros.getInstance(this).loginAPI(email, pass,getApplicationContext());*/
 
 
 
@@ -87,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
     @Override
     public void onUpdateLogin(String token) {
         if(token != null) {
-            Intent intent = new Intent(this, MenuMainActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(TOKEN, token);
             intent.putExtra(EMAIL, etEmail.getText().toString());
             startActivity(intent);
