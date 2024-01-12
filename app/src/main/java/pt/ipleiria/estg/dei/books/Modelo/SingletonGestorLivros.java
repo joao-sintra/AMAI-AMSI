@@ -3,9 +3,6 @@ package pt.ipleiria.estg.dei.books.Modelo;
 import android.content.Context;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;

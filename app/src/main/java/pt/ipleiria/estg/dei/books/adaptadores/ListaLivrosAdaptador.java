@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.books.Modelo.Livro;
+import pt.ipleiria.estg.dei.books.Modelo.Produto;
 import pt.ipleiria.estg.dei.books.R;
 
 public class ListaLivrosAdaptador extends BaseAdapter {
