@@ -13,6 +13,7 @@ public class Livro {
         this.titulo = titulo;
         this.serie = serie;
         this.autor = autor;
+
     }
 
     public int getId() {
