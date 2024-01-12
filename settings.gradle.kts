@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Books"
+rootProject.name = "AMAI"
 include(":app")

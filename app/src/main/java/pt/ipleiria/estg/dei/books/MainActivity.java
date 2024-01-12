@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         PaginaInicialFragment paginaInicialFragment = new PaginaInicialFragment();
+        CarregarFragmentAtual(paginaInicialFragment);
+
         PerfilFragment perfilFragment = new PerfilFragment();
 
         DefinicoesApiFragment definicoesApiFragment = new DefinicoesApiFragment();
@@ -49,14 +51,14 @@ public class MainActivity extends AppCompatActivity {
     private void CarregarFragmentAtual(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, fragment).commit();
     }
-        public void CriarNotificacaoCarrinho(){
-            BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-            MenuItem menuItem = bottomNavigationView.getMenu().findItem(R.id.carrinho);
+    public void CriarNotificacaoCarrinho(){
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        MenuItem menuItem = bottomNavigationView.getMenu().findItem(R.id.carrinho);
 
-            BadgeDrawable badgeDrawable = bottomNavigationView.getOrCreateBadge(menuItem.getItemId());
-            badgeDrawable.setNumber(10);
-            badgeDrawable.setVisible(true);
-        }
+        BadgeDrawable badgeDrawable = bottomNavigationView.getOrCreateBadge(menuItem.getItemId());
+        badgeDrawable.setNumber(10);
+        badgeDrawable.setVisible(true);
+    }
 
 
 }
