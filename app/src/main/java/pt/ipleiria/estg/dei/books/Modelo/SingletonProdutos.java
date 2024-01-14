@@ -14,6 +14,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pt.ipleiria.estg.dei.books.listeners.ProdutoListener;
 import pt.ipleiria.estg.dei.books.listeners.ProdutosListener;
@@ -21,12 +22,14 @@ import pt.ipleiria.estg.dei.books.utils.ProdutoJsonParser;
 
 public class SingletonProdutos {
 
+
     private static final String TOKEN = "fBF_qwu_kIXpMydCXbsqYSpcHfeJyk-E";
-    private ArrayList<Produto> produtos;
-    private static SingletonProdutos instance = null;
-    private static final String mUrlAPIProdutos = "http://192.168.1.115/AMAI-SIS/backend/web/api/produtos?access-token=" + TOKEN;
+    public ArrayList<Produto> produtos = new ArrayList<>();
+    private static volatile SingletonProdutos instance = null;
+    private static final String mUrlAPIProdutos = "http://172.22.21.211/AMAI-SIS/backend/web/api/produtos/all?access-token=" + TOKEN;
     //private LivroBDHelper livrosBD=null;
     private static RequestQueue volleyQueue = null;
+
 
     // private static final String mUrlAPILogin = "http://amsi.dei.estg.ipleiria.pt/api/auth/login";
     //public static final String TOKEN = "AMSI-TOKEN";
@@ -37,8 +40,12 @@ public class SingletonProdutos {
 
     public static synchronized SingletonProdutos getInstance(Context context) {
         if (instance == null) {
-            instance = new SingletonProdutos(context);
-            volleyQueue = Volley.newRequestQueue(context);
+            synchronized (SingletonProdutos.class){
+                if (instance == null){
+                    instance = new SingletonProdutos(context);
+                    volleyQueue = Volley.newRequestQueue(context);
+                }
+            }
         }
         return instance;
     }

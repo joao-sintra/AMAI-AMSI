@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.books;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import pt.ipleiria.estg.dei.books.databinding.ActivityDetalhesProdutoBinding;

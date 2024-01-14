@@ -7,4 +7,6 @@ import pt.ipleiria.estg.dei.books.Modelo.Produto;
 
 public interface ProdutosListener {
     void onRefreshListaProdutos(ArrayList<Produto> listaProdutos);
+
+
 }

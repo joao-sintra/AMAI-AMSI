@@ -25,10 +25,11 @@ public class ProdutoJsonParser {
                 String descricao = produtoJSON.getString("descricao");
                 String obs = produtoJSON.getString("obs");
                 float preco = (float) produtoJSON.getDouble("preco");
-                int iva_id = produtoJSON.getInt("iva_id");
-                int categoria_produto_id = produtoJSON.getInt("categoria_produto_id");
+                int iva = produtoJSON.getInt("iva");
+                String categoria = produtoJSON.getString("categoria");
+                String imagem = produtoJSON.getString("imagens");
 
-                Produto produto = new Produto(id, nome, descricao, preco, obs, categoria_produto_id,iva_id);
+                Produto produto = new Produto(id, nome, descricao, preco, obs, categoria,iva, imagem);
                     produtos.add(produto);
             }
         } catch (JSONException e) {
@@ -48,13 +49,15 @@ public class ProdutoJsonParser {
             String descricao = produtoJSON.getString("descricao");
             String obs = produtoJSON.getString("obs");
             float preco = (float) produtoJSON.getDouble("preco");
-            int iva_id = produtoJSON.getInt("iva_id");
-            int categoria_produto_id = produtoJSON.getInt("categoria_produto_id");
+            int iva = produtoJSON.getInt("iva");
+            String categoria = produtoJSON.getString("categoria");
+            String imagem = produtoJSON.getString("imagens");
 
-            produto = new Produto(id, nome, descricao, preco, obs, categoria_produto_id,iva_id);
+            produto = new Produto(id, nome, descricao, preco, obs, categoria, iva, imagem);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+        Log.d("ProdutosJsonParser","parserJsonProduto: "+produto);
         return produto;
     }
 

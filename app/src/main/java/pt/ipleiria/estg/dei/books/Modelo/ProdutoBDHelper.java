@@ -16,7 +16,7 @@ public class ProdutoBDHelper extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
     private SQLiteDatabase db;
     public static final String ID = "id", NOME = "nome", DESCRICAO = "descricao", PRECO = "preco",
-            OBS = "obs", CATEGORIA = "categoria", IVA = "iva";
+            OBS = "obs", CATEGORIA = "categoria", IVA = "iva", IMAGEM = "imagens";
 
 
     public ProdutoBDHelper(@Nullable Context context) {
@@ -33,7 +33,8 @@ public class ProdutoBDHelper extends SQLiteOpenHelper {
                 PRECO + " REAL NOT NULL," +
                 OBS + " TEXT NOT NULL," +
                 CATEGORIA + " TEXT NOT NULL," +
-                IVA + "FLOAT NOT NULL);";
+                IVA + "FLOAT NOT NULL," +
+                IMAGEM + "TEXT NOT NULL" )";
 
         sqLiteDatabase.execSQL(sqlTableProdutos);
     }
@@ -45,7 +46,7 @@ public class ProdutoBDHelper extends SQLiteOpenHelper {
     }
 
     //region
-   /* public Produto adicionarProdutoBD(Produto produto) {
+    public Produto adicionarProdutoBD(Produto produto) {
         ContentValues values = new ContentValues();
         values.put(ID, produto.getId());
         values.put(NOME, produto.getNome());
@@ -57,7 +58,7 @@ public class ProdutoBDHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, values);
 
         return produto;
-    }*/
+    }
 
    /* public ArrayList<Produto> getAllProdutosBD() {
         ArrayList<Produto> produtos = new ArrayList<>();

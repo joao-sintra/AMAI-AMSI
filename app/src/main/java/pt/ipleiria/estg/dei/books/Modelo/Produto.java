@@ -1,27 +1,23 @@
 package pt.ipleiria.estg.dei.books.Modelo;
 
 public class Produto {
-    private int id,iva_id, categoria_produto_id;
-    private String nome, descricao,obs;
+    private int id,iva;
+    private String nome, descricao,obs, categoria, imagem;
     private float preco;
 
-    public Produto(int id, String nome, String descricao,float preco, String obs, int categoria_produto_id, int iva_id) {
+    public Produto(int id, String nome, String descricao, float preco, String obs, String categoria, int iva, String imagem) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.obs = obs;
+        this.categoria = categoria;
+        this.iva = iva;
         this.preco = preco;
-        this.iva_id = iva_id;
-        this.categoria_produto_id = categoria_produto_id;
-
+        this.imagem = imagem;
     }
 
     public int getId() {
         return id;
-    }
-
-    public int getIvaId() {
-        return iva_id;
     }
 
     public String getNome() {
@@ -36,7 +32,6 @@ public class Produto {
         return obs;
     }
 
-
     public float getPreco() {
         return preco;
     }
@@ -45,20 +40,15 @@ public class Produto {
         this.preco = preco;
     }
 
-    public int getCategoriaProdutosId() {
-        return categoria_produto_id;
+    public int getIva() {
+        return iva;
     }
 
-    @Override
-    public String toString() {
-        return "Produto{" +
-                "id=" + id +
-                ", iva_id=" + iva_id +
-                ", categoria_produto_id=" + categoria_produto_id +
-                ", nome='" + nome + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", obs='" + obs + '\'' +
-                ", preco=" + preco +
-                '}';
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public String getImagem() {
+        return imagem;
     }
 }
