@@ -112,7 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
-                    android:text="Não és um utilizador?"
+                    android:text="@string/text_utilizador"
                     android:textSize="16sp"
                     android:textColor="@color/blue_grey"/>
 
@@ -120,7 +120,7 @@
                     android:id="@+id/signupTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sign up"
+                    android:text="@string/text_sign_up"
                     android:onClick="onSignupButtonClick"
                     android:textColor="@color/red"
                     android:textSize="16sp"/>
