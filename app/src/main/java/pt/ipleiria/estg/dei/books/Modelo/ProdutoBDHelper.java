@@ -34,7 +34,7 @@ public class ProdutoBDHelper extends SQLiteOpenHelper {
                 OBS + " TEXT NOT NULL," +
                 CATEGORIA + " TEXT NOT NULL," +
                 IVA + "FLOAT NOT NULL," +
-                IMAGEM + "TEXT NOT NULL" )";
+                IMAGEM + "TEXT NOT NULL" + ")";
 
         sqLiteDatabase.execSQL(sqlTableProdutos);
     }

@@ -30,12 +30,11 @@ public class ListaProdutosAdaptador extends RecyclerView.Adapter<ListaProdutosAd
         this.context = context;
         this.produtos = produtos;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View inflate = layoutInflater.inflate(R.layout.item_lista_produtos, null);
+        View inflate = layoutInflater.inflate(R.layout.item_lista_produtos,null);
         ViewHolder viewHolder = new ViewHolder(inflate);
 
         return viewHolder;

@@ -26,7 +26,7 @@ public class SingletonProdutos {
     private static final String TOKEN = "fBF_qwu_kIXpMydCXbsqYSpcHfeJyk-E";
     public ArrayList<Produto> produtos = new ArrayList<>();
     private static volatile SingletonProdutos instance = null;
-    private static final String mUrlAPIProdutos = "http://172.22.21.211/AMAI-SIS/backend/web/api/produtos/all?access-token=" + TOKEN;
+    private static final String mUrlAPIProdutos = "http://192.168.1.115/AMAI-SIS/backend/web/api/produtos/all?access-token=" + TOKEN;
     //private LivroBDHelper livrosBD=null;
     private static RequestQueue volleyQueue = null;
 
@@ -87,12 +87,18 @@ public class SingletonProdutos {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutos, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
+                    // Add this line to log the response
                     // converter json em livros
                     produtos = ProdutoJsonParser.parserJsonProdutos(response);
+                    Log.d("API_Response", response.toString());
+                    Log.d("Produtos", produtos.toString());
 
                     // informar a vista
-                    if (produtoListener != null)
+                    if (produtosListener != null) {
+
+                        Log.d("PRODUTOS LISTENER", produtosListener.toString());
                         produtosListener.onRefreshListaProdutos(produtos);
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override

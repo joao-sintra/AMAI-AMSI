@@ -51,4 +51,18 @@ public class Produto {
     public String getImagem() {
         return imagem;
     }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "id=" + id +
+                ", iva=" + iva +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", obs='" + obs + '\'' +
+                ", categoria='" + categoria + '\'' +
+                ", imagem='" + imagem + '\'' +
+                ", preco=" + preco +
+                '}';
+    }
 }
