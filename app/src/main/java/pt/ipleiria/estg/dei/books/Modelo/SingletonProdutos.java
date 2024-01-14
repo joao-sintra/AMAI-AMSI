@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.books.Modelo;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -20,13 +21,14 @@ import pt.ipleiria.estg.dei.books.utils.ProdutoJsonParser;
 
 public class SingletonProdutos {
 
+    private static final String TOKEN = "fBF_qwu_kIXpMydCXbsqYSpcHfeJyk-E";
     private ArrayList<Produto> produtos;
     private static SingletonProdutos instance = null;
-    private static final String mUrlAPIProdutos = "http://192.168.1.87/AMAI-SIS/backend/web/api/produtos";
+    private static final String mUrlAPIProdutos = "http://192.168.1.115/AMAI-SIS/backend/web/api/produtos?access-token=" + TOKEN;
     //private LivroBDHelper livrosBD=null;
     private static RequestQueue volleyQueue = null;
 
-   // private static final String mUrlAPILogin = "http://amsi.dei.estg.ipleiria.pt/api/auth/login";
+    // private static final String mUrlAPILogin = "http://amsi.dei.estg.ipleiria.pt/api/auth/login";
     //public static final String TOKEN = "AMSI-TOKEN";
 
 
@@ -66,22 +68,24 @@ public class SingletonProdutos {
         }
         return null;
     }
+
     public void getAllProdutosAPI(final Context context) {
         if (!ProdutoJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
 
 
-            if(produtosListener != null)
+            if (produtosListener != null)
                 produtosListener.onRefreshListaProdutos(produtos);
         } else {
             JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutos, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
-                // converter json em livros
+                    // converter json em livros
                     produtos = ProdutoJsonParser.parserJsonProdutos(response);
+
                     // informar a vista
-                     if(produtoListener != null)
-                       produtosListener.onRefreshListaProdutos(produtos);
+                    if (produtoListener != null)
+                        produtosListener.onRefreshListaProdutos(produtos);
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -92,11 +96,6 @@ public class SingletonProdutos {
             volleyQueue.add(req);
         }
     }
-
-
-
-
-
 
 
 }

@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.books.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +35,8 @@ public class ProdutoJsonParser {
             throw new RuntimeException(e);
         }
         return produtos;
+
+
     }
 
     public static Produto parserJsonProduto(String response) {
