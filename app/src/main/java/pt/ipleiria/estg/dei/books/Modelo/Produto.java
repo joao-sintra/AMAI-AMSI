@@ -1,58 +1,27 @@
 package pt.ipleiria.estg.dei.books.Modelo;
 
 public class Produto {
-    private int id;
-    private double preco, iva;
-    private String nome, descricao, obs, categoria;
+    private int id,iva_id, categoria_produto_id;
+    private String nome, descricao,obs;
+    private float preco;
 
-    public Produto(int id, double iva, String categoria, double preco, String nome, String descricao, String obs) {
+    public Produto(int id, String nome, String descricao,float preco, String obs, int categoria_produto_id, int iva_id) {
         this.id = id;
-        this.iva = iva;
-        this.categoria = categoria;
-        this.preco = preco;
         this.nome = nome;
         this.descricao = descricao;
         this.obs = obs;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setPreco(double preco) {
         this.preco = preco;
-    }
+        this.iva_id = iva_id;
+        this.categoria_produto_id = categoria_produto_id;
 
-    public void setIva(double iva) {
-        this.iva = iva;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public void setObs(String obs) {
-        this.obs = obs;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
     }
 
     public int getId() {
         return id;
     }
 
-    public double getPreco() {
-        return preco;
-    }
-
-    public double getIva() {
-        return iva;
+    public int getIvaId() {
+        return iva_id;
     }
 
     public String getNome() {
@@ -67,7 +36,29 @@ public class Produto {
         return obs;
     }
 
-    public String getCategoria() {
-        return categoria;
+
+    public float getPreco() {
+        return preco;
+    }
+
+    public void setPreco(float preco) {
+        this.preco = preco;
+    }
+
+    public int getCategoriaProdutosId() {
+        return categoria_produto_id;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "id=" + id +
+                ", iva_id=" + iva_id +
+                ", categoria_produto_id=" + categoria_produto_id +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", obs='" + obs + '\'' +
+                ", preco=" + preco +
+                '}';
     }
 }

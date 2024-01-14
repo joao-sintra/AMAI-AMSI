@@ -151,10 +151,10 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView15"
+                    android:id="@+id/VerTodosBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="VER TODOS"
+                    android:text="Ver Todos"
                     android:textColor="@color/red" />
             </LinearLayout>
 

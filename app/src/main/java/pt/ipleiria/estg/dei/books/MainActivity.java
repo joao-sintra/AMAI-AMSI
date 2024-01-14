@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.books;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -15,11 +16,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        CarregarFragmentAtual(new PaginaInicialFragment());
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         PaginaInicialFragment paginaInicialFragment = new PaginaInicialFragment();
-        CarregarFragmentAtual(paginaInicialFragment);
+
 
         PerfilFragment perfilFragment = new PerfilFragment();
 
@@ -40,18 +42,23 @@ public class MainActivity extends AppCompatActivity {
             } else if (itemId == R.id.perfil) {
                 CarregarFragmentAtual(perfilFragment);
                 return true;
-            }
-            else if (itemId == R.id.definicoes) {
+            } else if (itemId == R.id.definicoes) {
                 CarregarFragmentAtual(definicoesApiFragment);
                 return true;
             }
             return false;
         });
     }
+
     private void CarregarFragmentAtual(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, fragment).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.flFragment, fragment)
+                .addToBackStack(null)
+                .commit();
     }
-    public void CriarNotificacaoCarrinho(){
+
+    public void CriarNotificacaoCarrinho() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         MenuItem menuItem = bottomNavigationView.getMenu().findItem(R.id.carrinho);
 

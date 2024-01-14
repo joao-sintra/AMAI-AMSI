@@ -1,6 +1,9 @@
-/*
+package pt.ipleiria.estg.dei.books;
+
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import pt.ipleiria.estg.dei.books.databinding.ActivityDetalhesProdutoBinding;
 
 
 public class DetalhesProdutoActivity extends AppCompatActivity {
@@ -16,4 +19,4 @@ public class DetalhesProdutoActivity extends AppCompatActivity {
         // Your custom logic here
     }
 }
-*/
+

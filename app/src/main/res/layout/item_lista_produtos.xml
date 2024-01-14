@@ -28,12 +28,13 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
             <TextView
-                android:id="@+id/textView16"
+                android:id="@+id/tvNomeProduto"
                 android:layout_width="387dp"
                 android:layout_height="52dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+
                 android:text="Title"
                 android:textColor="@color/blue_grey"
                 android:textSize="16sp"
@@ -43,7 +44,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/priceTxt"
+                android:id="@+id/tvPrecoProduto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
@@ -54,7 +55,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/rateTxt"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView16" />
+                app:layout_constraintStart_toStartOf="@+id/tvNomeProduto" />
 
             <ImageView
                 android:id="@+id/imageView7"
@@ -62,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/star"
-                app:layout_constraintBottom_toBottomOf="@+id/priceTxt"
+                app:layout_constraintBottom_toBottomOf="@+id/tvPrecoProduto"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView

@@ -45,7 +45,7 @@ public class ProdutoBDHelper extends SQLiteOpenHelper {
     }
 
     //region
-    public Produto adicionarProdutoBD(Produto produto) {
+   /* public Produto adicionarProdutoBD(Produto produto) {
         ContentValues values = new ContentValues();
         values.put(ID, produto.getId());
         values.put(NOME, produto.getNome());
@@ -57,9 +57,9 @@ public class ProdutoBDHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, values);
 
         return produto;
-    }
+    }*/
 
-    public ArrayList<Produto> getAllProdutosBD() {
+   /* public ArrayList<Produto> getAllProdutosBD() {
         ArrayList<Produto> produtos = new ArrayList<>();
 
         Cursor cursor = db.query(TABLE_NAME, new String[]{ID, NOME, DESCRICAO, PRECO, OBS, CATEGORIA, IVA}, null, null,
@@ -80,5 +80,5 @@ public class ProdutoBDHelper extends SQLiteOpenHelper {
             cursor.close();
         }
         return produtos;
-    }
+    }*/
 }
