@@ -26,7 +26,7 @@
         <activity
             android:name=".SignupActivity"
             android:exported="false" />
-        <activity
+        <!--<activity
             android:name=".DetalhesLivroActivity"
             android:exported="false"
             android:parentActivityName=".MenuMainActivity" />
@@ -38,13 +38,13 @@
         <activity
             android:name=".DetalhesDinamicoActivity"
             android:exported="false"
-            android:parentActivityName=".IntroActivity" />
+            android:parentActivityName=".IntroActivity" />-->
         <activity
             android:name=".LoginActivity"
             android:exported="false"
             android:launchMode="singleTop" />
         <activity
-            android:name=".MainActivity"
+            android:name=".PerfilEditDMActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

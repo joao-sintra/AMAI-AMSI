@@ -13,4 +13,8 @@
     <string name="et_titulo">Título</string>
     <string name="menuSearch">Pesquisar</string>
     <string name="menuRemover">Remover</string>
+    <string name="text_utilizador">Não és um utilizador?</string>
+    <string name="text_sign_up">Sign up</string>
+    <string name="txt_perfil_nome">Ruben Amaral</string>
+    <string name="selected">Selecione o seu género</string>
 </resources>
