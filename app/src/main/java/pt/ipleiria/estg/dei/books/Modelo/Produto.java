@@ -12,7 +12,7 @@ public class Produto {
         this.obs = obs;
         this.categoria = categoria;
         this.iva = iva;
-        this.preco = preco;
+        this.preco = preco*((float)iva/100)+preco;
         this.imagem = imagem;
     }
 

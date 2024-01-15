@@ -38,10 +38,11 @@
     </ScrollView>
 
     <ProgressBar
-        android:id="@+id/progressBar2"
+        android:id="@+id/progressBarProdutos"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/scrollView2"
         app:layout_constraintStart_toStartOf="@+id/scrollView2"

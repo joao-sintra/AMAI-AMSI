@@ -23,9 +23,7 @@ import pt.ipleiria.estg.dei.books.listeners.ProdutoListener;
 
 public class ListaProdutosAdaptador extends RecyclerView.Adapter<ListaProdutosAdaptador.ViewHolder> {
     private  ProdutoListener produtoListener;
-
     public Context context;
-
     private LayoutInflater inflater;
     private ArrayList<Produto> produtos;
 
@@ -63,6 +61,7 @@ public class ListaProdutosAdaptador extends RecyclerView.Adapter<ListaProdutosAd
                 }
             }
         });
+
 
 
     }

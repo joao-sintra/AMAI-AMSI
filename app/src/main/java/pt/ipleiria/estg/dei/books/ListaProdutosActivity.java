@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class ListaProdutosActivity extends AppCompatActivity implements Produtos
     public ArrayList<Produto> listaProdutos;
     private RecyclerView rvProdutos;
     private ListaProdutosAdaptador adapter;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,6 @@ public class ListaProdutosActivity extends AppCompatActivity implements Produtos
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_produtos);
-        setTitle("Lista de Produtos");
 
         SingletonProdutos.getInstance(getApplicationContext()).setProdutosListener(this);
         SingletonProdutos.getInstance(getApplicationContext()).getAllProdutosAPI(getApplicationContext());
@@ -47,6 +48,9 @@ public class ListaProdutosActivity extends AppCompatActivity implements Produtos
         rvProdutos = findViewById(R.id.listProdutos);
         adapter = new ListaProdutosAdaptador(this, getApplicationContext(), listaProdutos);
         rvProdutos.setAdapter(adapter);
+        progressBar = findViewById(R.id.progressBarProdutos);
+        progressBar.setVisibility(ProgressBar.GONE);
+
 
 
     }
