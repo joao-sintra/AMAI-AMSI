@@ -14,7 +14,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import pt.ipleiria.estg.dei.books.listeners.ProdutoListener;
 import pt.ipleiria.estg.dei.books.listeners.ProdutosListener;
@@ -26,7 +25,7 @@ public class SingletonProdutos {
     private static final String TOKEN = "fBF_qwu_kIXpMydCXbsqYSpcHfeJyk-E";
     public ArrayList<Produto> produtos = new ArrayList<>();
     private static volatile SingletonProdutos instance = null;
-    private static final String mUrlAPIProdutos = "http://192.168.1.115/AMAI-SIS/backend/web/api/produtos/all?access-token=" + TOKEN;
+    private static final String mUrlAPIProdutos = "http://172.22.21.211/AMAI-SIS/backend/web/api/produtos/all?access-token=" + TOKEN;
     //private LivroBDHelper livrosBD=null;
     private static RequestQueue volleyQueue = null;
 
