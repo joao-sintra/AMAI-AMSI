@@ -25,10 +25,10 @@
                 android:layout_marginEnd="16dp">
 
                 <TextView
-                    android:id="@+id/textView10"
+                    android:id="@+id/txtUsername"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ruben Amaral"
+                    android:text="Username"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -39,8 +39,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Bem vindo"
-                    app:layout_constraintBottom_toTopOf="@+id/textView10"
-                    app:layout_constraintStart_toStartOf="@+id/textView10"
+                    app:layout_constraintBottom_toTopOf="@+id/txtUsername"
+                    app:layout_constraintStart_toStartOf="@+id/txtUsername"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed" />
 
