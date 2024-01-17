@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import pt.ipleiria.estg.dei.books.Modelo.Produto;
 import pt.ipleiria.estg.dei.books.Modelo.SingletonProdutos;
@@ -70,6 +72,7 @@ public class PaginaInicialFragment extends Fragment implements ProdutosListener 
             }
         });
     }
+
     private void sendQuerytoActivity(String query) {
         // Create an intent
         Intent intent = new Intent(getActivity(), ListaProdutosActivity.class);
@@ -83,13 +86,24 @@ public class PaginaInicialFragment extends Fragment implements ProdutosListener 
     }
 
 
-
     @Override
     public void onRefreshListaProdutos(ArrayList<Produto> listaProdutos) {
-        adapter = new BestProdutosAdaptador(getContext(), listaProdutos);
-        binding.bestProductView.setAdapter(adapter);
-        binding.progressBarBestProduct.setVisibility(View.GONE);
+        // Shuffle the listaProdutos array
+        Collections.shuffle(listaProdutos);
 
+        // Limit the number of products to be displayed (e.g., 5)
+        int numberOfProductsToDisplay = 4;
+        List<Produto> limitedList = listaProdutos.subList(0, Math.min(numberOfProductsToDisplay, listaProdutos.size()));
+        ArrayList<Produto> limitedArrayList = new ArrayList<>(limitedList);
+
+        // Create the adapter with the limited list
+        adapter = new BestProdutosAdaptador(getContext(), limitedArrayList);
+
+        // Set the adapter to the RecyclerView
+        binding.bestProductView.setAdapter(adapter);
+
+        // Hide the progress bar
+        binding.progressBarBestProduct.setVisibility(View.GONE);
     }
 
     private void goToListaProdutosActivity() {
