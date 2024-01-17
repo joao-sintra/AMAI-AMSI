@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.books.Modelo;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -41,16 +42,11 @@ import pt.ipleiria.estg.dei.books.utils.ProdutoJsonParser;
 
 public class SingletonProdutos {
 
-    private static final String TOKEN = "fBF_qwu_kIXpMydCXbsqYSpcHfeJyk-E";
     public ArrayList<Produto> produtos = new ArrayList<>();
     public Utilizador utilizador;
     public Utilizador utilizadorData;
-
     private static volatile SingletonProdutos instance = null;
-    private static final String mUrlAPIProdutos = "http://172.22.21.211/AMAI-SIS/backend/web/api/produtos/all?access-token=" + TOKEN;
-
-    //private LivroBDHelper livrosBD=null;
-
+    private static final String mUrlAPIProdutos = "http://172.22.21.211/AMAI-SIS/backend/web/api/produtos/all?access-token=";
     private static final String mUrlAPILogin = "http://172.22.21.211/AMAI-SIS/backend/web/api/auth/login";
     private UtilizadorBDHelper utilizadoresBD = null;
 
@@ -140,25 +136,29 @@ public class SingletonProdutos {
     }
 
     public void getAllProdutosAPI(final Context context) {
+        String token = getUserToken(context);
+        if (token == null) {
+            // Handle the case where the token is not available
+            return;
+        }
+
+        String urlWithToken = mUrlAPIProdutos + token;
+
         if (!ProdutoJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
-
 
             if (produtosListener != null)
                 produtosListener.onRefreshListaProdutos(produtos);
         } else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutos, null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, urlWithToken, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     // Add this line to log the response
                     // converter json em livros
                     produtos = ProdutoJsonParser.parserJsonProdutos(response);
 
-
                     // informar a vista
                     if (produtosListener != null) {
-
-
                         produtosListener.onRefreshListaProdutos(produtos);
                     }
                 }
@@ -170,6 +170,16 @@ public class SingletonProdutos {
             });
             volleyQueue.add(req);
         }
+    }
+
+    private int getUserId(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        return preferences.getInt("user_id", 0); // 0 is the default value if the user ID is not found
+    }
+
+    private String getUserToken(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        return preferences.getString("user_token", null);
     }
 
     public void loginAPI(final String username, final String password, final Context context) {
@@ -189,13 +199,16 @@ public class SingletonProdutos {
                     // Parse the JSON response and add the user to the local database
                     utilizador = LoginJsonParser.parserJsonLogin(response);
 
+                    // Save the user's token to SharedPreferences
+                    saveUserId(context, utilizador.getId());
+                    saveUserToken(context, utilizador.getAuth_key());
+
                     // Add the user to the local database only if it doesn't already exist
                     if (!isUsernameExists(context, username)) {
                         if(utilizador.getId() != 0 || utilizador.getAuth_key() != null) {
                             getUserDataAPI(context, utilizador.getId(), utilizador.getAuth_key(), utilizador);
                         }
                     }
-
 
                     if (loginListener != null) {
                         loginListener.onUpdateLogin(utilizador);
@@ -236,7 +249,6 @@ public class SingletonProdutos {
                     for (int i = 0; i < response.length(); i++) {
                         try {
                             JSONObject item = response.getJSONObject(i);
-                            /*utilizador = LoginJsonParser.parserJsonLogin(item);*/
                             utilizadorData = LoginJsonParser.parserJsonGetUtilizadorData(item);
 
                             // Move the database insertion logic here
@@ -262,6 +274,20 @@ public class SingletonProdutos {
 
     private String getmUrlAPIUserData(int utilizadorID, String TOKEN_USER_LOGIN) {
         return "http://172.22.21.211/AMAI-SIS/backend/web/api/users/"+ utilizadorID +"?access-token=" + TOKEN_USER_LOGIN;
+    }
+
+    public void saveUserToken(Context context, String token) {
+        SharedPreferences preferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("user_token", token);
+        editor.apply();
+    }
+
+    public void saveUserId(Context context, int userId) {
+        SharedPreferences preferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("user_id", userId);
+        editor.apply();
     }
 
     private void adicionarUtilizadorDataBD(Context context, Utilizador utilizadorData, Utilizador utilizador) {
