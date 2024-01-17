@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pt.ipleiria.estg.dei.books.Modelo.Produto;
 import pt.ipleiria.estg.dei.books.Modelo.SingletonProdutos;
@@ -24,6 +26,7 @@ public class ListaProdutosActivity extends AppCompatActivity implements Produtos
     public ArrayList<Produto> listaProdutos;
     private RecyclerView rvProdutos;
     private ListaProdutosAdaptador adapter;
+
     private ProgressBar progressBar;
 
     @Override
@@ -33,32 +36,42 @@ public class ListaProdutosActivity extends AppCompatActivity implements Produtos
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_produtos);
 
+
         SingletonProdutos.getInstance(getApplicationContext()).setProdutosListener(this);
         SingletonProdutos.getInstance(getApplicationContext()).getAllProdutosAPI(getApplicationContext());
         rvProdutos = findViewById(R.id.listProdutos);
         rvProdutos.setLayoutManager(new GridLayoutManager(this, 2));
-        listaProdutos = SingletonProdutos.getInstance(getApplicationContext()).getProdutos();
-
 
 
     }
 
     @Override
     public void onRefreshListaProdutos(ArrayList<Produto> listaProdutos) {
+
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            String query = intent.getStringExtra("query");
+
+
+            if (query != null && listaProdutos.size() > 0) {
+                listaProdutos = SingletonProdutos.getInstance(getApplicationContext()).getFilteredProdutos(query);
+            }
+        }
+
         rvProdutos = findViewById(R.id.listProdutos);
         adapter = new ListaProdutosAdaptador(this, getApplicationContext(), listaProdutos);
         rvProdutos.setAdapter(adapter);
         progressBar = findViewById(R.id.progressBarProdutos);
         progressBar.setVisibility(ProgressBar.GONE);
 
-
-
     }
+
 
     @Override
     public void onItemClick(int position, Produto product) {
         // Handle the item click with the position information
-        Toast.makeText(this, "Clicked item at position " + position, Toast.LENGTH_SHORT).show();
+
 
         // Optionally, you can still use the product data as needed
         Intent intent = new Intent(this, DetalhesProdutoActivity.class);

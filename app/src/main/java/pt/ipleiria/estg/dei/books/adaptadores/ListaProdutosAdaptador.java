@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.books.adaptadores;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +17,17 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pt.ipleiria.estg.dei.books.Modelo.Produto;
 import pt.ipleiria.estg.dei.books.R;
 import pt.ipleiria.estg.dei.books.listeners.ProdutoListener;
 
 public class ListaProdutosAdaptador extends RecyclerView.Adapter<ListaProdutosAdaptador.ViewHolder> {
-    private  ProdutoListener produtoListener;
+    private ProdutoListener produtoListener;
+
     public Context context;
+    private List<Produto> filteredProdutos;
     private LayoutInflater inflater;
     private ArrayList<Produto> produtos;
 
@@ -32,11 +36,12 @@ public class ListaProdutosAdaptador extends RecyclerView.Adapter<ListaProdutosAd
         this.context = context;
         this.produtos = produtos;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View inflate = layoutInflater.inflate(R.layout.item_lista_produtos,null);
+        View inflate = layoutInflater.inflate(R.layout.item_lista_produtos, null);
         ViewHolder viewHolder = new ViewHolder(inflate, produtoListener);
 
         return viewHolder;
@@ -48,7 +53,7 @@ public class ListaProdutosAdaptador extends RecyclerView.Adapter<ListaProdutosAd
         Produto product = produtos.get(position);
         holder.tvNomeProduto.setText(product.getNome());
         holder.tvPrecoProduto.setText(product.getPreco() + " €");
-        String imageUrl= "http://172.22.21.211/AMAI-plataformas/frontend/web/public/imagens/produtos/"+product.getImagem();
+        String imageUrl = "http://172.22.21.211/AMAI-plataformas/frontend/web/public/imagens/produtos/" + product.getImagem();
 
         Glide.with(holder.itemView.getContext()).load(imageUrl).transform(new CenterCrop(), new RoundedCorners(30)).into(holder.imgProduto);
 
@@ -61,7 +66,6 @@ public class ListaProdutosAdaptador extends RecyclerView.Adapter<ListaProdutosAd
                 }
             }
         });
-
 
 
     }

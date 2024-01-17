@@ -56,85 +56,43 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/grey_background"
                     android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/editTextText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/grey"
-                        android:ems="10"
-                        android:gravity="center"
-                        android:hint="Procurar doces..."
-                        android:inputType="text"
-                        android:padding="8dp"
-                        android:text=""
-                        android:textAlignment="center"
-                        android:textColor="@color/blue_grey"
-                        android:textColorHint="@color/blue_grey"
-                        android:textSize="16sp" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        app:hintEnabled="false">
 
-                    <ImageView
-                        android:id="@+id/searchBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="4dp"
-                        app:srcCompat="@drawable/search_icon" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="166dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="0.33"
-                    android:background="@drawable/grey_background"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/imageView10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="8dp"
-                        android:src="@drawable/location" />
-
-                    <Spinner
-                        android:id="@+id/locationSP"
-                        android:layout_width="341dp"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_weight="1"
-                        android:background="@null" />
+                        <androidx.appcompat.widget.SearchView
+                            android:id="@+id/searchView"
+                            onQueryTextListener="@{viewModel}"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            app:queryHint="Procurar bolos e doces" />
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
@@ -142,10 +100,10 @@
 
                 <TextView
                     android:id="@+id/textView14"
-                    android:layout_width="wrap_content"
+                    android:layout_width="267dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Melhores doces"
+                    android:text="Popular"
                     android:textColor="@color/blue_grey"
                     android:textSize="22dp"
                     android:textStyle="bold" />
@@ -176,45 +134,16 @@
                     android:id="@+id/bestProductView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="15dp"
-                android:layout_weight="1"
-                android:text="Escolha a Categoria"
-                android:textColor="@color/blue_grey"
-                android:textSize="22dp"
-                android:textStyle="bold" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ProgressBar
-                    android:id="@+id/progressBarCategorias"
-                    style="?android:attr/progressBarStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@+id/categoriasView"
-                    app:layout_constraintEnd_toEndOf="@+id/categoriasView"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/categoriasView" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/categoriasView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
     </ScrollView>

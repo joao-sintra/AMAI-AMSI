@@ -14,6 +14,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import pt.ipleiria.estg.dei.books.listeners.ProdutoListener;
 import pt.ipleiria.estg.dei.books.listeners.ProdutosListener;
@@ -39,8 +42,8 @@ public class SingletonProdutos {
 
     public static synchronized SingletonProdutos getInstance(Context context) {
         if (instance == null) {
-            synchronized (SingletonProdutos.class){
-                if (instance == null){
+            synchronized (SingletonProdutos.class) {
+                if (instance == null) {
                     instance = new SingletonProdutos(context);
                     volleyQueue = Volley.newRequestQueue(context);
                 }
@@ -55,9 +58,19 @@ public class SingletonProdutos {
     }
 
     public ArrayList<Produto> getProdutos() {
+
         return produtos;
     }
 
+    public ArrayList<Produto> getFilteredProdutos(String query) {
+        ArrayList<Produto> filteredProdutos = new ArrayList<>();
+        for (Produto produto : produtos) {
+            if (produto.getNome() != null && produto.getNome().toLowerCase().trim().contains(query.toLowerCase())) {
+                filteredProdutos.add(produto);
+            }
+        }
+        return filteredProdutos;
+    }
 
     public void setProdutosListener(ProdutosListener produtosListener) {
         this.produtosListener = produtosListener;
@@ -89,13 +102,12 @@ public class SingletonProdutos {
                     // Add this line to log the response
                     // converter json em livros
                     produtos = ProdutoJsonParser.parserJsonProdutos(response);
-                    Log.d("API_Response", response.toString());
-                    Log.d("Produtos", produtos.toString());
+
 
                     // informar a vista
                     if (produtosListener != null) {
 
-                        Log.d("PRODUTOS LISTENER", produtosListener.toString());
+
                         produtosListener.onRefreshListaProdutos(produtos);
                     }
                 }
@@ -108,6 +120,4 @@ public class SingletonProdutos {
             volleyQueue.add(req);
         }
     }
-
-
 }

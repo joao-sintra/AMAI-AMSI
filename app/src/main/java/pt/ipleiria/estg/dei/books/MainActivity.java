@@ -4,20 +4,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import pt.ipleiria.estg.dei.books.databinding.ActivityMainBinding;
+
 public class MainActivity extends AppCompatActivity {
+
+    private ActivityMainBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        CarregarFragmentAtual(new PaginaInicialFragment());
 
+        CarregarFragmentAtual(new PaginaInicialFragment());
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         PaginaInicialFragment paginaInicialFragment = new PaginaInicialFragment();
@@ -48,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+
     }
 
     private void CarregarFragmentAtual(Fragment fragment) {
