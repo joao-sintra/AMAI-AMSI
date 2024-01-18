@@ -15,7 +15,8 @@ public class SignupActivity extends AppCompatActivity {
         setTitle("Signup");
 
     }
-    public void onLoginButtonClick (View view){
+
+    public void onLoginButtonClick(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }

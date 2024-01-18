@@ -75,10 +75,7 @@ public class ListaProdutosActivity extends AppCompatActivity implements Produtos
 
         // Optionally, you can still use the product data as needed
         Intent intent = new Intent(this, DetalhesProdutoActivity.class);
-        intent.putExtra("NOME", product.getNome());
-        intent.putExtra("PRECO", product.getPreco());
-        intent.putExtra("IMAGEM", product.getImagem());
-        intent.putExtra("DESCRICAO", product.getDescricao());
+        intent.putExtra(DetalhesProdutoActivity.PRODUTO, product);
 
 
         startActivity(intent);

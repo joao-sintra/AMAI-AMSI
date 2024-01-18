@@ -22,14 +22,14 @@
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cart"
+                android:text="@string/carrinho_text"
                 android:textAlignment="center"
                 android:textColor="@color/blue_grey"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/cardView"
+                android:id="@+id/rvListaLinhaCarrinho"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Order Summary"
+                android:text="@string/txt_sumario_encomenda"
                 android:textColor="@color/blue_grey"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Subtotal"
+                    android:text="@string/subtotal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -161,7 +161,7 @@
                 android:background="@drawable/red_button_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Place Order"
+                android:text="@string/btn_finalizar_encomenda"
                 android:textColor="@color/white"
                 android:textSize="18sp"/>
 

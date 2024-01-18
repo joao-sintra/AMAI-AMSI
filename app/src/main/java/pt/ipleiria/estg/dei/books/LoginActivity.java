@@ -21,7 +21,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
     //Declaração
     private EditText etEmail, etPassword;
 
-    private final int MIN_PASS=4;
+    private final int MIN_PASS = 4;
 
 
     @Override
@@ -31,42 +31,43 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
         setTitle("Login");
 
         //Inicialização
-        etEmail=findViewById(R.id.etEmail);
-        etPassword=findViewById(R.id.etPassword);
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
         /*SingletonGestorLivros.getInstance(getApplicationContext()).setLoginListener(this);*/
     }
 
-    private boolean isEmailValido(String email){
-        if(email == null)
+    private boolean isEmailValido(String email) {
+        if (email == null)
             return false;
 
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
-    private boolean isPasswordValida(String pass){
-        if(pass==null)
+
+    private boolean isPasswordValida(String pass) {
+        if (pass == null)
             return false;
 
-        return pass.length()>=MIN_PASS;
+        return pass.length() >= MIN_PASS;
     }
-    public void onSignupButtonClick (View view){
+
+    public void onSignupButtonClick(View view) {
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
     }
 
     public void onClickLogin(View view) {
-        String email=etEmail.getText().toString();
-        String pass=etPassword.getText().toString();
+        String email = etEmail.getText().toString();
+        String pass = etPassword.getText().toString();
 
-        if(!isEmailValido(email)) {
+        if (!isEmailValido(email)) {
             etEmail.setError("Email Inválido!");
             return;
         }
-        if(!isPasswordValida(pass)) {
+        if (!isPasswordValida(pass)) {
             etPassword.setError("Password Inválida!");
             return;
         }
         /*SingletonGestorLivros.getInstance(this).loginAPI(email, pass,getApplicationContext());*/
-
 
 
         //Ex 2.5
@@ -83,14 +84,13 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
 
     @Override
     public void onUpdateLogin(String token) {
-        if(token != null) {
+        if (token != null) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(TOKEN, token);
             intent.putExtra(EMAIL, etEmail.getText().toString());
             startActivity(intent);
             finish();
-        }
-        else {
+        } else {
             Toast.makeText(this, "Token incorreto", Toast.LENGTH_SHORT).show();
         }
 

@@ -17,4 +17,10 @@
     <string name="text_sign_up">Sign up</string>
     <string name="txt_perfil_nome">Ruben Amaral</string>
     <string name="selected">Selecione o seu género</string>
+    <string name="delete_button_text">Eliminar\n</string>
+    <string name="btn_adicionar_carrinho">Adicionar ao Carrinho</string>
+    <string name="carrinho_text">Carrinho</string>
+    <string name="btn_finalizar_encomenda">Finalizar</string>
+    <string name="txt_sumario_encomenda">Sumário</string>
+    <string name="subtotal">Subtotal</string>
 </resources>

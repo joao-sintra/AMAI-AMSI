@@ -55,7 +55,7 @@ public class PerfilEditDPActivity extends AppCompatActivity {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
-        month = month +1;
+        month = month + 1;
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
         return makeDateString(year, month, day);
@@ -64,7 +64,7 @@ public class PerfilEditDPActivity extends AppCompatActivity {
     private void initDatePicker() {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet (DatePicker datePicker, int year, int month, int day) {
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
                 String data = makeDateString(year, month, day);
                 botaoData.setText(data);
@@ -82,7 +82,7 @@ public class PerfilEditDPActivity extends AppCompatActivity {
     }
 
     private String makeDateString(int day, int month, int year) {
-        return  year + " " + getMonthFormat(month) + " " + day;
+        return year + " " + getMonthFormat(month) + " " + day;
     }
 
     private String getMonthFormat(int month) {

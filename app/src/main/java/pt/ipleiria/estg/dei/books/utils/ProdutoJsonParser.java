@@ -15,7 +15,7 @@ import pt.ipleiria.estg.dei.books.Modelo.Produto;
 
 public class ProdutoJsonParser {
 
-    public static ArrayList<Produto> parserJsonProdutos(JSONArray response){
+    public static ArrayList<Produto> parserJsonProdutos(JSONArray response) {
         ArrayList<Produto> produtos = new ArrayList<Produto>();
         try {
             for (int i = 0; i < response.length(); i++) {
@@ -29,8 +29,8 @@ public class ProdutoJsonParser {
                 String categoria = produtoJSON.getString("categoria");
                 String imagem = produtoJSON.getString("imagens");
 
-                Produto produto = new Produto(id, nome, descricao, preco, obs, categoria,iva, imagem);
-                    produtos.add(produto);
+                Produto produto = new Produto(id, nome, descricao, preco, obs, categoria, iva, imagem);
+                produtos.add(produto);
             }
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -57,7 +57,7 @@ public class ProdutoJsonParser {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        Log.d("ProdutosJsonParser","parserJsonProduto: "+produto);
+        Log.d("ProdutosJsonParser", "parserJsonProduto: " + produto);
         return produto;
     }
 
@@ -77,9 +77,6 @@ public class ProdutoJsonParser {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return (netInfo != null && netInfo.isConnected());
     }
-
-
-
 
 
 }
