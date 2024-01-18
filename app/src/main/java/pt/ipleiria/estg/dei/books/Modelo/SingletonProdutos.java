@@ -20,23 +20,14 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import pt.ipleiria.estg.dei.books.listeners.CarrinhoListener;
 import pt.ipleiria.estg.dei.books.listeners.LinhaCarrinhoListener;
 import pt.ipleiria.estg.dei.books.listeners.LinhasCarrinhosListener;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 
 import pt.ipleiria.estg.dei.books.listeners.LoginListener;
@@ -57,16 +48,13 @@ public class SingletonProdutos {
     public Utilizador utilizador;
     public Utilizador utilizadorData;
     private static volatile SingletonProdutos instance = null;
-    private static final String mUrlAPIProdutos = "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtos/all?access-token=" + TOKEN;
     private static int user_id;
     private static int carrinho_id;
-    private static final String mUrlAPIGetCarrinho = "http://172.22.21.211/AMAI-plataformas/backend/web/api/carrinhos/" + user_id + "/dados?access-token=" + TOKEN;
-    private static final String mUrlAPIGetCarrinhoProdutos = "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtoscarrinhos/32/dados?access-token=" + TOKEN;
-    private static final String mUrlAPIPostLinhaCarrinho = "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtoscarrinhos/criar?access-token=" + TOKEN;
+    private static final String mUrlAPIPostLinhaCarrinho = "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtoscarrinhos/criar?access-token=";
 
     //private LivroBDHelper livrosBD=null;
-    private static final String mUrlAPIProdutos = "http://172.22.21.211/AMAI-SIS/backend/web/api/produtos/all?access-token=";
-    private static final String mUrlAPILogin = "http://172.22.21.211/AMAI-SIS/backend/web/api/auth/login";
+    private static final String mUrlAPIProdutos = "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtos/all?access-token=";
+    private static final String mUrlAPILogin = "http://172.22.21.211/AMAI-plataformas/backend/web/api/auth/login";
     private UtilizadorBDHelper utilizadoresBD = null;
 
     /*private ProdutoBDHelper produtosBD=null;*/
@@ -180,13 +168,6 @@ public class SingletonProdutos {
     }
 
     public void getAllProdutosAPI(final Context context) {
-        String token = getUserToken(context);
-        if (token == null) {
-            // Handle the case where the token is not available
-            return;
-        }
-
-        String urlWithToken = mUrlAPIProdutos + token;
 
         if (!ProdutoJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
@@ -195,7 +176,7 @@ public class SingletonProdutos {
             if (produtosListener != null)
                 produtosListener.onRefreshListaProdutos(produtos);
         } else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutos, null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutos+getUserToken(context), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     // Add this line to log the response
@@ -220,13 +201,17 @@ public class SingletonProdutos {
         }
     }
 
+    private String urlGetCarrinho(Context context) {
+
+        return "http://172.22.21.211/AMAI-plataformas/backend/web/api/carrinhos/" + getUserId(context) + "/dados?access-token=" + getUserToken(context);
+    }
     public void getCarrinhoAPI(final Context context) {
         if (!ProdutoJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
 
         } else {
-            user_id = 75;
-            JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, mUrlAPIGetCarrinho, null, new Response.Listener<JSONObject>() {
+
+            JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, urlGetCarrinho(context), null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     // Add this line to log the response
@@ -253,7 +238,12 @@ public class SingletonProdutos {
         }
     }
 
-    public void getLinhasProdutosAPI(final Context context) {
+    private String urlGetLinhasCarrinho(int carrinho_id, Context context) {
+
+
+        return "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtoscarrinhos/"+carrinho_id+"/dados?access-token="+getUserToken(context);
+    }
+    public void getLinhasCarrinhosAPI(final Context context, Carrinho carrinho) {
         if (!ProdutoJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
 
@@ -262,7 +252,7 @@ public class SingletonProdutos {
                 linhasCarrinhosListener.onRefreshListaLinhasCarrinhos(linhaCarrinhos);
         } else {
 
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIGetCarrinhoProdutos, null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, urlGetLinhasCarrinho(carrinho.getId(), context), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     // Add this line to log the response
@@ -291,7 +281,7 @@ public class SingletonProdutos {
         if (!ProdutoJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
         } else {
-            StringRequest req = new StringRequest(Request.Method.PUT, urlUpdateLinha(linhaCarrinho.getIdLinha()), new Response.Listener<String>() {
+            StringRequest req = new StringRequest(Request.Method.PUT, urlUpdateLinha(linhaCarrinho.getIdLinha(),context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if (linhaCarrinhoListener != null) {
@@ -316,16 +306,16 @@ public class SingletonProdutos {
             volleyQueue.add(req);
         }
     }
-    private String urlUpdateLinha(int id) {
+    private String urlUpdateLinha(int id, Context context) {
 
-        return "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtoscarrinhos/"+id+"/update?access-token=" + TOKEN;
+        return "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtoscarrinhos/"+id+"/update?access-token=" + getUserToken(context);
     }
 
     public void adicionarLinhaCarrinhoAPI(final Context context, Produto produto) {
         if (!ProdutoJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
         } else {
-            StringRequest req = new StringRequest(Request.Method.POST, mUrlAPIPostLinhaCarrinho, new Response.Listener<String>() {
+            StringRequest req = new StringRequest(Request.Method.POST, mUrlAPIPostLinhaCarrinho+getUserToken(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if (linhaCarrinhoListener != null) {
@@ -353,15 +343,15 @@ public class SingletonProdutos {
         }
 
     }
-    private String urlDeleteLinha(int id) {
+    private String urlDeleteLinha(int id, Context context) {
 
-        return "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtoscarrinhos/" + id + "/delete?access-token=" + TOKEN;
+        return "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtoscarrinhos/" + id + "/delete?access-token=" + getUserToken(context);
     }
     public void deleteLinhaCarrinhoAPI(final Context context, final LinhaCarrinho linhaCarrinho) {
         if (!ProdutoJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
         } else {
-            StringRequest req = new StringRequest(Request.Method.DELETE, urlDeleteLinha(linhaCarrinho.getIdLinha()), new Response.Listener<String>() {
+            StringRequest req = new StringRequest(Request.Method.DELETE, urlDeleteLinha(linhaCarrinho.getIdLinha(),context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if (linhaCarrinhoListener != null) {
@@ -480,7 +470,7 @@ public class SingletonProdutos {
     }
 
     private String getmUrlAPIUserData(int utilizadorID, String TOKEN_USER_LOGIN) {
-        return "http://172.22.21.211/AMAI-SIS/backend/web/api/users/"+ utilizadorID +"?access-token=" + TOKEN_USER_LOGIN;
+        return "http://172.22.21.211/AMAI-plataformas/backend/web/api/users/"+ utilizadorID +"?access-token=" + TOKEN_USER_LOGIN;
     }
 
     public void saveUserToken(Context context, String token) {
@@ -502,6 +492,7 @@ public class SingletonProdutos {
 
         ContentValues values = new ContentValues();
 
+        values.put("id", utilizador.getId());
         values.put("username", utilizador.getUsername());
         values.put("primeironome", utilizadorData.getPrimeironome());
         values.put("apelido", utilizadorData.getApelido());

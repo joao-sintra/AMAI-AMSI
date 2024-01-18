@@ -12,7 +12,7 @@ public class UtilizadorBDHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "BDUtilizadores";
     public static final String TABLE_NAME = "UtilizadoresTable";
-    private static final int DB_VERSION = 6;
+    private static final int DB_VERSION = 7;
     private SQLiteDatabase db;
 
     public static final String USERNAME = "username", EMAIL = "email", ID = "id", PRIMEIRO_NOME = "primeironome", APELIDO = "apelido",

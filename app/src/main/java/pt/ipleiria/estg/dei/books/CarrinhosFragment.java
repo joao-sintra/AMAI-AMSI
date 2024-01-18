@@ -13,13 +13,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import pt.ipleiria.estg.dei.books.Modelo.Carrinho;
 import pt.ipleiria.estg.dei.books.Modelo.LinhaCarrinho;
 import pt.ipleiria.estg.dei.books.Modelo.SingletonProdutos;
 import pt.ipleiria.estg.dei.books.adaptadores.LinhaCarrinhoAdaptador;
+import pt.ipleiria.estg.dei.books.listeners.CarrinhoListener;
 import pt.ipleiria.estg.dei.books.listeners.LinhaCarrinhoListener;
 import pt.ipleiria.estg.dei.books.listeners.LinhasCarrinhosListener;
 
-public class CarrinhosFragment extends Fragment implements LinhasCarrinhosListener, LinhaCarrinhoListener {
+public class CarrinhosFragment extends Fragment implements LinhasCarrinhosListener, LinhaCarrinhoListener, CarrinhoListener {
 
     public static final int ADD = 100, EDIT = 200, DEL = 300;
     private RecyclerView rvLinhaProdutos;
@@ -27,13 +29,19 @@ public class CarrinhosFragment extends Fragment implements LinhasCarrinhosListen
     private TextView tvNomeProdutoCarrinho, tvPrecoProdutoCarrinho, tvQuantidadeProdutoCarrinho;
     private LinhasCarrinhosListener linhasCarrinhosListener;
     private LinhaCarrinhoAdaptador adapter;
+    private CarrinhoListener carrinhoListener;
+    private Carrinho carrinho;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        SingletonProdutos.getInstance(getContext()).setCarrinhoListener(this);
+        SingletonProdutos.getInstance(getContext()).getCarrinhoAPI(getContext());
+        carrinho = SingletonProdutos.getInstance(getContext()).getCarrinho();
+
 
         SingletonProdutos.getInstance(getContext()).setLinhasCarrinhosListener(this);
-        SingletonProdutos.getInstance(getContext()).getLinhasProdutosAPI(getContext());
+        SingletonProdutos.getInstance(getContext()).getLinhasCarrinhosAPI(getContext(), carrinho);
 
         View view = inflater.inflate(R.layout.fragment_carrinhos, container, false);
 
@@ -58,5 +66,11 @@ public class CarrinhosFragment extends Fragment implements LinhasCarrinhosListen
     @Override
     public void onItemUpdate() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRefreshListaCarrinho(Carrinho carrinho) {
+        this.carrinho = carrinho;
+
     }
 }
