@@ -35,6 +35,7 @@ import pt.ipleiria.estg.dei.books.listeners.ProdutoListener;
 import pt.ipleiria.estg.dei.books.listeners.ProdutosListener;
 import pt.ipleiria.estg.dei.books.utils.CarrinhoJsonParser;
 import pt.ipleiria.estg.dei.books.utils.LinhaCarrinhoJsonParser;
+import pt.ipleiria.estg.dei.books.listeners.SignupListener;
 import pt.ipleiria.estg.dei.books.listeners.UtilizadorDataListener;
 import pt.ipleiria.estg.dei.books.utils.LoginJsonParser;
 import pt.ipleiria.estg.dei.books.utils.ProdutoJsonParser;
@@ -55,6 +56,7 @@ public class SingletonProdutos {
     //private LivroBDHelper livrosBD=null;
     private static final String mUrlAPIProdutos = "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtos/all?access-token=";
     private static final String mUrlAPILogin = "http://172.22.21.211/AMAI-plataformas/backend/web/api/auth/login";
+    private static final String mUrlAPISignup = "http://172.22.21.211/AMAI-SIS/backend/web/api/auth/register";
     private UtilizadorBDHelper utilizadoresBD = null;
 
     /*private ProdutoBDHelper produtosBD=null;*/
@@ -67,6 +69,7 @@ public class SingletonProdutos {
 
     private LoginListener loginListener;
     private UtilizadorDataListener utilizadorDataListener;
+    private SignupListener signupListener;
     private ProdutosListener produtosListener;
     private ProdutoListener produtoListener;
     private CarrinhoListener carrinhoListener;
@@ -94,6 +97,10 @@ public class SingletonProdutos {
 
     public void setLoginListener(LoginListener loginListener) {
         this.loginListener = loginListener;
+    }
+
+    public void setSignupListener(SignupListener signupListener) {
+        this.signupListener = signupListener;
     }
 
     public void setUtilizadorDataListener(UtilizadorDataListener utilizadorDataListener) {
@@ -165,6 +172,10 @@ public class SingletonProdutos {
         if(utilizador != null){
             utilizadoresBD.editarUtilizadorBD(utilizador);
         }
+    }
+
+    public String getUsernameById(int userId) {
+        return utilizadoresBD.getUsernameById(userId);
     }
 
     public void getAllProdutosAPI(final Context context) {
@@ -369,12 +380,12 @@ public class SingletonProdutos {
         }
     }
 
-    private int getUserId(Context context) {
+    public int getUserId(Context context) {
         SharedPreferences preferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         return preferences.getInt("user_id", 0); // 0 is the default value if the user ID is not found
     }
 
-    private String getUserToken(Context context) {
+    public String getUserToken(Context context) {
         SharedPreferences preferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         return preferences.getString("user_token", null);
     }
@@ -522,6 +533,82 @@ public class SingletonProdutos {
         db.insert(TABLE_NAME, null, values);
 
         dbHelper.close();
+    }
+
+    private void adicionarUtilizadorSignupBD(Context context, Utilizador utilizador) {
+        String TABLE_NAME = "UtilizadoresTable";
+
+        ContentValues values = new ContentValues();
+
+        values.put("id", utilizador.getId());
+        values.put("username", utilizador.getUsername());
+        values.put("email", utilizador.getEmail());
+        values.put("auth_key", utilizador.getAuth_key());
+        values.put("password_hash", utilizador.getPassword_hash());
+        values.put("password_reset_token", utilizador.getPassword_reset_token());
+        values.put("status", utilizador.getStatus());
+        values.put("created_at", utilizador.getCreated_at());
+        values.put("updated_at", utilizador.getUpdated_at());
+        values.put("verification_token", utilizador.getVerification_token());
+
+
+        // Assuming you have a UtilizadorDataBDHelper instance and a writable database
+        UtilizadorBDHelper dbHelper = new UtilizadorBDHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        // Insert the user data into the database
+        // Example query (you should adjust it based on your database schema):
+        db.insert(TABLE_NAME, null, values);
+
+        dbHelper.close();
+    }
+
+    public void signupAPI(final String username, final String password, final String email, final Context context) {
+        if (!ProdutoJsonParser.isConnectionInternet(context)) {
+            Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
+        } else {
+            JSONObject jsonParams = new JSONObject();
+            try {
+                jsonParams.put("username", username);
+                jsonParams.put("password", password);
+                jsonParams.put("email", email);
+            } catch (JSONException e) {
+                // This catch block will not be executed, but you can log the exception if needed
+                e.printStackTrace();
+            }
+
+            JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, mUrlAPISignup, jsonParams, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utilizador newUser = LoginJsonParser.parserJsonLogin(response);
+
+                    // Check if the username already exists in the local database
+                    if (!isUsernameExists(context, newUser.getUsername())) {
+                        // Save the user's ID and token to SharedPreferences
+                        saveUserId(context, newUser.getId());
+                        saveUserToken(context, newUser.getAuth_key());
+
+                        // Add the new user to the local database
+                        adicionarUtilizadorSignupBD(context, newUser);
+
+                        // Perform additional actions as needed
+                        if (signupListener != null) {
+                            signupListener.onUpdateSignup(newUser);
+                        }
+                    } else {
+                        // Handle the case where the username already exists
+                        Toast.makeText(context, "O Username introduzido já existe", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, "Error durante o signup", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            volleyQueue.add(req);
+        }
     }
 
 }

@@ -91,23 +91,5 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
         else {
             Toast.makeText(this, "Token incorreto", Toast.LENGTH_SHORT).show();
         }
-
-        navigateToFragment();
-    }
-
-    public void navigateToFragment() {
-        String username = etUsername.getText().toString();
-
-        // Create a new instance of PaginaInicialFragment
-        PaginaInicialFragment fragment = new PaginaInicialFragment();
-
-        // Use putExtra to pass the username to the fragment
-        Intent intent = new Intent(this, PaginaInicialFragment.class);
-        intent.putExtra(USERNAME, username);
-
-        // Replace the fragment
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
     }
 }

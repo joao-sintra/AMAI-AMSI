@@ -15,12 +15,12 @@ public class LoginJsonParser {
             String username = loginJSON.getString("username");
             String auth_key = loginJSON.getString("auth_key");
             String password_hash = loginJSON.getString("password_hash");
-            String password_reset_token = loginJSON.getString("password_reset_token");
+            String password_reset_token = "";
             String email = loginJSON.getString("email");
             String status = loginJSON.getString("status");
             String created_at = loginJSON.getString("created_at");
             String updated_at = loginJSON.getString("updated_at");
-            String verification_token = loginJSON.getString("verification_token");
+            String verification_token = "";
 
             utilizador = new Utilizador(id, username, "", "", email, "",
                     "","","","","", "", auth_key, password_hash, password_reset_token,

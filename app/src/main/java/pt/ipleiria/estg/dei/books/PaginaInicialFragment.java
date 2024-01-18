@@ -20,6 +20,7 @@ import java.util.List;
 
 import pt.ipleiria.estg.dei.books.Modelo.Produto;
 import pt.ipleiria.estg.dei.books.Modelo.SingletonProdutos;
+import pt.ipleiria.estg.dei.books.Modelo.Utilizador;
 import pt.ipleiria.estg.dei.books.adaptadores.BestProdutosAdaptador;
 import pt.ipleiria.estg.dei.books.databinding.FragmentPaginaInicialBinding;
 import pt.ipleiria.estg.dei.books.listeners.ProdutoListener;
@@ -44,18 +45,14 @@ public class PaginaInicialFragment extends Fragment implements ProdutosListener,
         binding = FragmentPaginaInicialBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
+        SingletonProdutos singleton = SingletonProdutos.getInstance(getContext());
+
+        int userId = singleton.getUserId(getContext());
+        String username = singleton.getUsernameById(userId);
+
         txtUsername = view.findViewById(R.id.txtUsername);
 
-        // Retrieve the username from the intent
-        Intent intent = getActivity().getIntent();
-        if (intent != null) {
-            username = intent.getStringExtra(LoginActivity.USERNAME);
-        }
-
-        // Check if username is not null and set it in the TextView
-        if (username != null) {
-            txtUsername.setText(username);
-        }
+        txtUsername.setText(username);
 
         binding.VerTodosBtn.setOnClickListener(v -> goToListaProdutosActivity());
 
@@ -66,7 +63,6 @@ public class PaginaInicialFragment extends Fragment implements ProdutosListener,
         binding.bestProductView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         listaProdutos = SingletonProdutos.getInstance(getContext()).getProdutos();
-
 
         filteredList = new ArrayList<>();
 
@@ -122,6 +118,7 @@ public class PaginaInicialFragment extends Fragment implements ProdutosListener,
         // Hide the progress bar
         binding.progressBarBestProduct.setVisibility(View.GONE);
     }
+
     @Override
     public void onItemClick(int position, Produto product) {
         Intent intent = new Intent(getContext(), DetalhesProdutoActivity.class);
@@ -133,13 +130,10 @@ public class PaginaInicialFragment extends Fragment implements ProdutosListener,
         startActivity(intent);
     }
 
-
     private void goToListaProdutosActivity() {
-
         // Intent to start ListaProdutosActivity
         Intent intent = new Intent(getActivity(), ListaProdutosActivity.class);
         startActivity(intent);
-
-
     }
+
 }

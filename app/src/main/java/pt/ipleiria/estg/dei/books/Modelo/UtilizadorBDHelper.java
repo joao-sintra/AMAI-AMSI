@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -12,7 +13,7 @@ public class UtilizadorBDHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "BDUtilizadores";
     public static final String TABLE_NAME = "UtilizadoresTable";
-    private static final int DB_VERSION = 7;
+    private static final int DB_VERSION = 18;
     private SQLiteDatabase db;
 
     public static final String USERNAME = "username", EMAIL = "email", ID = "id", PRIMEIRO_NOME = "primeironome", APELIDO = "apelido",
@@ -33,23 +34,23 @@ public class UtilizadorBDHelper extends SQLiteOpenHelper {
         String sqlTableUtilizadores = "CREATE TABLE " + TABLE_NAME + "(" +
                 ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 USERNAME + " TEXT NOT NULL," +
-                PRIMEIRO_NOME + " TEXT NOT NULL," +
-                APELIDO + " TEXT NOT NULL," +
+                PRIMEIRO_NOME + " TEXT," +
+                APELIDO + " TEXT," +
                 EMAIL + " TEXT NOT NULL," +
                 CODIGO_POSTAL + " TEXT," +
                 RUA + " TEXT," +
                 LOCALIDADE + " TEXT," +
-                DTANASC + " TEXT NOT NULL," +
+                DTANASC + " TEXT," +
                 TELEFONE + " TEXT," +
                 NIF + " TEXT, " +
-                GENERO + " TEXT NOT NULL," +
+                GENERO + " TEXT," +
                 AUTH_KEY + " TEXT NOT NULL," +
                 PASSWORD_HASH + " TEXT NOT NULL," +
                 PASSWORD_RESET_TOKEN + " TEXT," +
                 STATUS + " TEXT NOT NULL," +
                 CREATED_AT + " TEXT NOT NULL," +
                 UPDATED_AT + " TEXT NOT NULL," +
-                VERIFICATION_TOKEN + " TEXT NOT NULL);";
+                VERIFICATION_TOKEN + " TEXT);";
 
         db.execSQL(sqlTableUtilizadores);
 
@@ -114,5 +115,38 @@ public class UtilizadorBDHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public String getUsernameById(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String username = null;
+
+        Cursor cursor = db.query(
+                "UtilizadoresTable",
+                new String[]{"username"},
+                "id = ?",
+                new String[]{String.valueOf(userId)},
+                null,
+                null,
+                null
+        );
+
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                int columnIndex = cursor.getColumnIndex("username");
+
+                if (columnIndex != -1) {
+                    username = cursor.getString(columnIndex);
+                } else {
+                    // Log an error or handle the situation where "username" column is not found
+                    Log.d("TAG", "getUsernameById: " + "username column not found");
+                }
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return username;
+    }
 
 }
