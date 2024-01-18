@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="0dp"
@@ -56,20 +65,19 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/etEmail"
+                android:id="@+id/etUsername"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginStart="32dp"
-                android:hint="Email"
+                android:hint="Username"
                 android:textAlignment="center"
                 android:textColorHint="@color/blue_grey"
                 android:textSize="16sp"
                 android:ems="10"
                 android:background="@drawable/edit_text_background"
-                android:inputType="text"
-                android:text="aulas@amsi.pt" />
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/etPassword"
@@ -84,8 +92,7 @@
                 android:textSize="16sp"
                 android:ems="10"
                 android:background="@drawable/edit_text_background"
-                android:inputType="textPassword"
-                android:text="aulas-amsi" />
+                android:inputType="textPassword" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/loginBtn"

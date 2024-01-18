@@ -61,17 +61,6 @@ public class ProdutoJsonParser {
         return produto;
     }
 
-    public static String parserJsonLogin(String response) {
-        String token = null;
-        try {
-            JSONObject loginJSON = new JSONObject(response);
-            token = loginJSON.getString("token");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        return token;
-    }
-
     public static boolean isConnectionInternet(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
