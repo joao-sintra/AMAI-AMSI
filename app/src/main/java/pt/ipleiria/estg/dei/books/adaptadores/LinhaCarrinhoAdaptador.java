@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.books.adaptadores;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -23,19 +24,22 @@ import pt.ipleiria.estg.dei.books.Modelo.LinhaCarrinho;
 import pt.ipleiria.estg.dei.books.Modelo.Produto;
 import pt.ipleiria.estg.dei.books.Modelo.SingletonProdutos;
 import pt.ipleiria.estg.dei.books.R;
+import pt.ipleiria.estg.dei.books.listeners.LinhaCarrinhoListener;
 import pt.ipleiria.estg.dei.books.listeners.LinhasCarrinhosListener;
 
 public class LinhaCarrinhoAdaptador extends RecyclerView.Adapter<LinhaCarrinhoAdaptador.ViewHolder> {
 
     public Context context;
     private LinhasCarrinhosListener linhasCarrinhosListener;
+    private LinhaCarrinhoListener linhaCarrinhoListener;
     private ArrayList<LinhaCarrinho> linhasCarrinho;
 
 
-    public LinhaCarrinhoAdaptador(Context context, LinhasCarrinhosListener linhasCarrinhosListener, ArrayList<LinhaCarrinho> linhasCarrinho) {
+    public LinhaCarrinhoAdaptador(Context context, LinhasCarrinhosListener linhasCarrinhosListener, ArrayList<LinhaCarrinho> linhasCarrinho, LinhaCarrinhoListener linhaCarrinhoListener) {
         this.context = context;
         this.linhasCarrinhosListener = linhasCarrinhosListener;
         this.linhasCarrinho = linhasCarrinho;
+        this.linhaCarrinhoListener = linhaCarrinhoListener;
     }
 
     @NonNull
@@ -49,7 +53,7 @@ public class LinhaCarrinhoAdaptador extends RecyclerView.Adapter<LinhaCarrinhoAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         LinhaCarrinho linhaCarrinho = linhasCarrinho.get(position);
         int idpro = linhaCarrinho.getProdutoID();
         Produto produto = SingletonProdutos.getInstance(context).getProduto(idpro);
@@ -67,6 +71,7 @@ public class LinhaCarrinhoAdaptador extends RecyclerView.Adapter<LinhaCarrinhoAd
                 linhaCarrinho.adicionarQuantidade();
                 notifyItemChanged(position);
                 SingletonProdutos.getInstance(context).updateLinhaCarrinhoAPI(context,linhaCarrinho);
+                SingletonProdutos.getInstance(context).getCarrinhoAPI(context);
             }
         });
 
@@ -77,24 +82,32 @@ public class LinhaCarrinhoAdaptador extends RecyclerView.Adapter<LinhaCarrinhoAd
                 linhaCarrinho.diminuirQuantidade();
                 notifyItemChanged(position);
                 SingletonProdutos.getInstance(context).updateLinhaCarrinhoAPI(context,linhaCarrinho);
+                SingletonProdutos.getInstance(context).getCarrinhoAPI(context);
             }
         });
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // Delete item
                 AlertDialog alert = new AlertDialog.Builder(context)
                         .setTitle("Remover produto")
                         .setMessage("Tem a certeza que pretende remover o produto do carrinho?")
                         .setPositiveButton("Sim", (dialog, which) -> {
+                            SingletonProdutos.getInstance(context).setLinhaCarrinhoListener(linhaCarrinhoListener);
                             SingletonProdutos.getInstance(context).deleteLinhaCarrinhoAPI(context,linhaCarrinho);
+
                             linhasCarrinho.remove(position);
+
                             notifyItemRemoved(position);
                             notifyItemRangeChanged(position, linhasCarrinho.size());
+
                         })
                         .setNegativeButton("Não", null)
                         .create();
                 alert.show();
+
+
             }
         });
 

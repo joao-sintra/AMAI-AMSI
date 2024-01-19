@@ -20,10 +20,10 @@ public class CarrinhoJsonParser {
             JSONObject carrinhoJSON = new JSONObject(response.toString());
             int id = carrinhoJSON.getInt("id");
             String dtapedido = carrinhoJSON.getString("dtapedido");
-            String metodoenvio = carrinhoJSON.getString("metodoenvio");
+            String metodoenvio = carrinhoJSON.getString("metodo_envio");
             String status = carrinhoJSON.getString("status");
             float valortotal = (float) carrinhoJSON.getDouble("valortotal");
-            int userid = carrinhoJSON.getInt("userid");
+            int userid = carrinhoJSON.getInt("user_id");
 
             carrinho = new Carrinho(id, userid, metodoenvio, status, dtapedido, valortotal);
 

@@ -16,24 +16,28 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
+import pt.ipleiria.estg.dei.books.Modelo.Carrinho;
 import pt.ipleiria.estg.dei.books.Modelo.Produto;
 import pt.ipleiria.estg.dei.books.Modelo.SingletonProdutos;
 import pt.ipleiria.estg.dei.books.databinding.ActivityDetalhesProdutoBinding;
+import pt.ipleiria.estg.dei.books.listeners.CarrinhoListener;
 import pt.ipleiria.estg.dei.books.listeners.ProdutoListener;
 
 
-public class DetalhesProdutoActivity extends AppCompatActivity {
+public class DetalhesProdutoActivity extends AppCompatActivity implements CarrinhoListener{
 
     //private ActivityDetalhesProdutoBinding binding;
     private TextView tvNomeProduto, tvPrecoProduto, tvDescricaoProduto, btnAdicionarCarrinho;
     private ImageView imgCapaProduto;
     public static final String PRODUTO = "PRODUTO";
+    private CarrinhoListener carrinhoListener;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhes_produto);
+
 
 
         Intent intent = getIntent();
@@ -59,13 +63,27 @@ public class DetalhesProdutoActivity extends AppCompatActivity {
             btnAdicionarCarrinho.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SingletonProdutos.getInstance(getApplicationContext()).adicionarLinhaCarrinhoAPI(getApplicationContext(), produto);
-                Toast.makeText(getApplicationContext(), "Produto adicionado ao carrinho", Toast.LENGTH_SHORT).show();
+
+                Carrinho carrinho = SingletonProdutos.getInstance(getApplicationContext()).getCarrinho();
+                if(carrinho == null){
+                   // SingletonProdutos.getInstance(getApplicationContext()).adicionarCarrinhoAPI(getApplicationContext());
+                    SingletonProdutos.getInstance(getApplicationContext()).getCarrinhoAPI(getApplicationContext());
+                    carrinho = SingletonProdutos.getInstance(getApplicationContext()).getCarrinho();
+                }else{
+                    SingletonProdutos.getInstance(getApplicationContext()).adicionarLinhaCarrinhoAPI(getApplicationContext(), produto,carrinho);
+                    Toast.makeText(getApplicationContext(), "Produto adicionado ao carrinho", Toast.LENGTH_SHORT).show();
+                }
+
             }
         }
             );
 
         }
+    }
+
+    @Override
+    public void onRefreshListaCarrinho(Carrinho carrinho) {
+        carrinho = SingletonProdutos.getInstance(getApplicationContext()).getCarrinho();
     }
 }
 

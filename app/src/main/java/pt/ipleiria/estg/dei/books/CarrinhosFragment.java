@@ -26,7 +26,7 @@ public class CarrinhosFragment extends Fragment implements LinhasCarrinhosListen
     public static final int ADD = 100, EDIT = 200, DEL = 300;
     private RecyclerView rvLinhaProdutos;
     private ArrayList<LinhaCarrinho> listaLinhaCarrinho;
-    private TextView tvNomeProdutoCarrinho, tvPrecoProdutoCarrinho, tvQuantidadeProdutoCarrinho;
+    private TextView tvTotalCarrinho;
     private LinhasCarrinhosListener linhasCarrinhosListener;
     private LinhaCarrinhoAdaptador adapter;
     private CarrinhoListener carrinhoListener;
@@ -35,21 +35,22 @@ public class CarrinhosFragment extends Fragment implements LinhasCarrinhosListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
+        View view = inflater.inflate(R.layout.fragment_carrinhos, container, false);
         SingletonProdutos.getInstance(getContext()).setCarrinhoListener(this);
         SingletonProdutos.getInstance(getContext()).getCarrinhoAPI(getContext());
         carrinho = SingletonProdutos.getInstance(getContext()).getCarrinho();
 
 
         SingletonProdutos.getInstance(getContext()).setLinhasCarrinhosListener(this);
-        SingletonProdutos.getInstance(getContext()).getLinhasCarrinhosAPI(getContext(), carrinho);
 
-        View view = inflater.inflate(R.layout.fragment_carrinhos, container, false);
 
 
         rvLinhaProdutos = view.findViewById(R.id.rvListaLinhaCarrinho);
         rvLinhaProdutos.setLayoutManager(new GridLayoutManager(getContext(), 1));
         listaLinhaCarrinho = SingletonProdutos.getInstance(getContext()).getLinhaCarrinhos();
-
+        tvTotalCarrinho = view.findViewById(R.id.tvTotalCarrinho);
 
         // Inflate the layout for this fragment
         return view;
@@ -59,8 +60,14 @@ public class CarrinhosFragment extends Fragment implements LinhasCarrinhosListen
     @Override
     public void onRefreshListaLinhasCarrinhos(ArrayList<LinhaCarrinho> listaLinhaCarrinho) {
         //rvLinhaProdutos = getView().findViewById(R.id.rvListaLinhaCarrinho);
-        adapter = new LinhaCarrinhoAdaptador(getContext(), this, listaLinhaCarrinho);
+        adapter = new LinhaCarrinhoAdaptador(getContext(), this, listaLinhaCarrinho, this);
         rvLinhaProdutos.setAdapter(adapter);
+        if (carrinho != null) {
+            tvTotalCarrinho.setText(carrinho.getValorTotal() + " €");
+
+        }
+
+
     }
 
     @Override
@@ -70,7 +77,10 @@ public class CarrinhosFragment extends Fragment implements LinhasCarrinhosListen
 
     @Override
     public void onRefreshListaCarrinho(Carrinho carrinho) {
-        this.carrinho = carrinho;
+
+        carrinho = SingletonProdutos.getInstance(getContext()).getCarrinho();
+        SingletonProdutos.getInstance(getContext()).setLinhasCarrinhosListener(this);
+        SingletonProdutos.getInstance(getContext()).getLinhasCarrinhosAPI(getContext(), carrinho);
 
     }
 }

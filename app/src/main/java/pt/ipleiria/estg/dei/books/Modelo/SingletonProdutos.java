@@ -52,7 +52,7 @@ public class SingletonProdutos {
     private static int user_id;
     private static int carrinho_id;
     private static final String mUrlAPIPostLinhaCarrinho = "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtoscarrinhos/criar?access-token=";
-
+    private static final String mUrlApiPostCarrinho =  "http://172.22.21.211/AMAI-plataformas/backend/web/api/carrinhos/criar?access-token=";
     //private LivroBDHelper livrosBD=null;
     private static final String mUrlAPIProdutos = "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtos/all?access-token=";
     private static final String mUrlAPILogin = "http://172.22.21.211/AMAI-plataformas/backend/web/api/auth/login";
@@ -213,8 +213,10 @@ public class SingletonProdutos {
     }
 
     private String urlGetCarrinho(Context context) {
+        int user_id = getUserId(context);
 
-        return "http://172.22.21.211/AMAI-plataformas/backend/web/api/carrinhos/" + getUserId(context) + "/dados?access-token=" + getUserToken(context);
+
+        return "http://172.22.21.211/AMAI-plataformas/backend/web/api/carrinhos/" + user_id + "/dados?access-token=" + getUserToken(context);
     }
     public void getCarrinhoAPI(final Context context) {
         if (!ProdutoJsonParser.isConnectionInternet(context)) {
@@ -242,9 +244,38 @@ public class SingletonProdutos {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    Log.d("API_Response CARRINHO", error.toString());
                     Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+            volleyQueue.add(req);
+        }
+    }
+
+    public void adicionarCarrinhoAPI(final Context context) {
+        if (!ProdutoJsonParser.isConnectionInternet(context)) {
+            Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
+        } else {
+            StringRequest req = new StringRequest(Request.Method.POST, mUrlApiPostCarrinho+getUserToken(context), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                  //  Toast.makeText(context, "Erro ao adicionar carrinho", Toast.LENGTH_SHORT).show();
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String,String> params = new HashMap<>();
+                    params.put("user_id", getUserId(context)+"");
+
+                    return params;
+                }
+            };
             volleyQueue.add(req);
         }
     }
@@ -322,7 +353,7 @@ public class SingletonProdutos {
         return "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtoscarrinhos/"+id+"/update?access-token=" + getUserToken(context);
     }
 
-    public void adicionarLinhaCarrinhoAPI(final Context context, Produto produto) {
+    public void adicionarLinhaCarrinhoAPI(final Context context, Produto produto, Carrinho carrinho) {
         if (!ProdutoJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
         } else {
@@ -330,13 +361,16 @@ public class SingletonProdutos {
                 @Override
                 public void onResponse(String response) {
                     if (linhaCarrinhoListener != null) {
-                        Log.d("LINHAS CARRINHO LISTENER", linhaCarrinhoListener.toString());
+                        Log.d("LINHAS CARRINHO LISTENER", response);
                         linhaCarrinhoListener.onItemUpdate();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+
+                    String response = new String(error.networkResponse.data);
+                    Log.e("VolleyError", "Error Response: " + response);
                     Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }) {
@@ -345,7 +379,7 @@ public class SingletonProdutos {
                     Map<String,String> params = new HashMap<>();
                     params.put("quantidade", "1");
                     params.put("produto_id", produto.getId()+"");
-                    params.put("carrinho_id", "32");
+                    params.put("carrinho_id", carrinho.getId()+"");
 
                     return params;
                 }
@@ -373,6 +407,8 @@ public class SingletonProdutos {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    String response = new String(error.networkResponse.data);
+                    Log.e("VolleyError", "Error Response: " + response);
                     Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });

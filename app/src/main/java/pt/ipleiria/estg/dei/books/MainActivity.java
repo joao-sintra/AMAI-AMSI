@@ -15,22 +15,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import pt.ipleiria.estg.dei.books.Modelo.Carrinho;
+import pt.ipleiria.estg.dei.books.Modelo.SingletonProdutos;
 import pt.ipleiria.estg.dei.books.databinding.ActivityMainBinding;
+import pt.ipleiria.estg.dei.books.listeners.CarrinhoListener;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CarrinhoListener  {
 
     private ActivityMainBinding binding;
+    private CarrinhoListener carrinhoListener;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SingletonProdutos.getInstance(getApplicationContext()).setCarrinhoListener(carrinhoListener);
+        SingletonProdutos.getInstance(getApplicationContext()).getCarrinhoAPI(getApplicationContext());
 
         CarregarFragmentAtual(new PaginaInicialFragment());
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -40,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         PerfilFragment perfilFragment = new PerfilFragment();
 
         DefinicoesApiFragment definicoesApiFragment = new DefinicoesApiFragment();
+
+
 
         CarrinhosFragment carrinhosFragment = new CarrinhosFragment();
         //Criar as notificações quando se adiciona ao carrinho
@@ -63,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
+
+
+
     }
 
     private void CarregarFragmentAtual(Fragment fragment) {
@@ -83,4 +96,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onRefreshListaCarrinho(Carrinho carrinho) {
+
+    }
 }

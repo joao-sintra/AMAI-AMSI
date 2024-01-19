@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(TOKEN, utilizador.getAuth_key());
             intent.putExtra(USERNAME, utilizador.getUsername());
+
             startActivity(intent);
             finish();
         }
