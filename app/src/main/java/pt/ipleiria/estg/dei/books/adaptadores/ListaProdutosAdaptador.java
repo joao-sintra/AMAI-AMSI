@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.books.adaptadores;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,10 +86,9 @@ public class ListaProdutosAdaptador extends RecyclerView.Adapter<ListaProdutosAd
 
         public ViewHolder(@NonNull View itemView, ProdutoListener produtoListener) {
             super(itemView);
-            tvNomeProduto = itemView.findViewById(R.id.tvNomeProduto);
-            tvPrecoProduto = itemView.findViewById(R.id.tvPrecoProduto);
-            imgProduto = itemView.findViewById(R.id.imgProduto);
-
+            tvNomeProduto = itemView.findViewById(R.id.nomeTxt);
+            tvPrecoProduto = itemView.findViewById(R.id.precoTxt);
+            imgProduto = itemView.findViewById(R.id.pic);
 
         }
     }

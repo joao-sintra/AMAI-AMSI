@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.books.adaptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -16,10 +17,13 @@ import java.util.ArrayList;
 import pt.ipleiria.estg.dei.books.Modelo.Produto;
 import pt.ipleiria.estg.dei.books.R;
 import pt.ipleiria.estg.dei.books.databinding.ItemBestProdutosBinding;
+import pt.ipleiria.estg.dei.books.listeners.ProdutoListener;
 
 public class BestProdutosAdaptador extends RecyclerView.Adapter<BestProdutosAdaptador.ViewHolder> {
 
     private ArrayList<Produto> produtos;
+
+    private ProdutoListener produtoListener;
     private Context context;
 
     public BestProdutosAdaptador(Context context, ArrayList<Produto> produtos) {
@@ -47,8 +51,16 @@ public class BestProdutosAdaptador extends RecyclerView.Adapter<BestProdutosAdap
                 .load(imageUrl)
                 .transform(new CenterCrop(), new RoundedCorners(30))
                 .into(holder.binding.pic);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Notify the listener about the item click and pass the position
+                if (produtoListener != null) {
+                    produtoListener.onItemClick(position, produto);
+                }
+            }
+        });
     }
-
     public void setProdutos(ArrayList<Produto> produtos) {
         this.produtos = produtos;
     }

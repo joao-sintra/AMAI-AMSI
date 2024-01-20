@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import pt.ipleiria.estg.dei.books.Modelo.FavoritosBDHelper;
 import pt.ipleiria.estg.dei.books.Modelo.Produto;
 import pt.ipleiria.estg.dei.books.Modelo.SingletonProdutos;
 import pt.ipleiria.estg.dei.books.adaptadores.ListaProdutosAdaptador;
@@ -67,18 +68,26 @@ public class ListaProdutosActivity extends AppCompatActivity implements Produtos
 
     }
 
-
     @Override
     public void onItemClick(int position, Produto product) {
         // Handle the item click with the position information
-
 
         // Optionally, you can still use the product data as needed
         Intent intent = new Intent(this, DetalhesProdutoActivity.class);
         intent.putExtra(DetalhesProdutoActivity.PRODUTO, product);
 
+        // Check if the product is in the Favoritos table for the current user
+        int userID = SingletonProdutos.getInstance(getApplicationContext()).getUserId(getApplicationContext());
+        FavoritosBDHelper dbHelper = new FavoritosBDHelper(getApplicationContext());
+
+        boolean isProdutoInFavorites = dbHelper.isProdutoInFavorites(userID, product.getId());
+        dbHelper.close();
+
+        // Pass the information to the details activity
+        intent.putExtra(DetalhesProdutoActivity.IS_FAVORITE, isProdutoInFavorites);
 
         startActivity(intent);
     }
+
 
 }

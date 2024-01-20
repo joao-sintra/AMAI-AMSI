@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements CarrinhoListener 
 
         CarrinhosFragment carrinhosFragment = new CarrinhosFragment();
         //Criar as notificações quando se adiciona ao carrinho
-        CriarNotificacaoCarrinho();
+        /*CriarNotificacaoCarrinho();*/
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -68,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements CarrinhoListener 
                 return true;
             } else if (itemId == R.id.definicoes) {
                 CarregarFragmentAtual(definicoesApiFragment);
+                return true;
+            }
+            else if (itemId == R.id.favoritos) {
+                CarregarFragmentAtual(new FavoritosFragment());
                 return true;
             }
             return false;
@@ -86,14 +90,14 @@ public class MainActivity extends AppCompatActivity implements CarrinhoListener 
                 .commit();
     }
 
-    public void CriarNotificacaoCarrinho() {
+   /* public void CriarNotificacaoCarrinho() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         MenuItem menuItem = bottomNavigationView.getMenu().findItem(R.id.carrinho);
 
         BadgeDrawable badgeDrawable = bottomNavigationView.getOrCreateBadge(menuItem.getItemId());
         badgeDrawable.setNumber(10);
         badgeDrawable.setVisible(true);
-    }
+    }*/
 
 
     @Override

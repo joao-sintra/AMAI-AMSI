@@ -14,8 +14,8 @@ public class ListaProdutosViewHolder extends RecyclerView.ViewHolder {
 
     public ListaProdutosViewHolder(View view) {
         super(view);
-        tvNomeProduto = view.findViewById(R.id.tvNomeProduto);
-        tvPrecoProduto = view.findViewById(R.id.tvPrecoProduto);
+        tvNomeProduto = view.findViewById(R.id.nomeTxt);
+        tvPrecoProduto = view.findViewById(R.id.precoTxt);
         //imgCapa = view.findViewById(R.id.imgCapa);
     }
 
