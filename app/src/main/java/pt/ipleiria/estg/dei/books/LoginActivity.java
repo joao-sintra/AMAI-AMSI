@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -15,18 +16,15 @@ import android.widget.Toast;
 import pt.ipleiria.estg.dei.books.Modelo.SingletonProdutos;
 import pt.ipleiria.estg.dei.books.Modelo.Utilizador;
 import pt.ipleiria.estg.dei.books.listeners.LoginListener;
+import pt.ipleiria.estg.dei.books.listeners.SignupListener;
 
-public class LoginActivity extends AppCompatActivity implements LoginListener {
+public class LoginActivity extends AppCompatActivity implements LoginListener, SignupListener {
 
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String TOKEN = "token";
-
-    //Declaração
     private EditText etUsername, etPassword;
-
     private final int MIN_PASS=4;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +74,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
             etPassword.setError("Password Inválida!");
             return;
         }
+
         SingletonProdutos.getInstance(this).loginAPI(username, pass, getApplicationContext());
     }
 
@@ -87,10 +86,25 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
             intent.putExtra(USERNAME, utilizador.getUsername());
 
             startActivity(intent);
-            finish();
+            //finish();
         }
         else {
             Toast.makeText(this, "Token incorreto", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onUpdateSignup(Utilizador newUser) {
+        // Handle successful signup
+        if (newUser.getAuth_key() != null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(TOKEN, newUser.getAuth_key());
+            intent.putExtra(USERNAME, newUser.getUsername());
+            startActivity(intent);
+            //finish(); // Consider whether you want to finish the login activity
+        } else {
+            Toast.makeText(this, "Token incorreto", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

@@ -5,13 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 
-import android.os.Build;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -29,6 +22,8 @@ import pt.ipleiria.estg.dei.books.listeners.LinhaCarrinhoListener;
 
 public class MainActivity extends AppCompatActivity implements LinhaCarrinhoListener {
 
+    public FragmentManager fragmentManager;
+    public Fragment fragment;
     private ActivityMainBinding binding;
     private CarrinhoListener carrinhoListener;
 
@@ -38,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements LinhaCarrinhoList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        fragmentManager = getSupportFragmentManager();
+
         SingletonProdutos.getInstance(getApplicationContext()).setCarrinhoListener(carrinhoListener);
         SingletonProdutos.getInstance(getApplicationContext()).getCarrinhoAPI(getApplicationContext());
 
@@ -46,18 +43,18 @@ public class MainActivity extends AppCompatActivity implements LinhaCarrinhoList
 
         PaginaInicialFragment paginaInicialFragment = new PaginaInicialFragment();
 
-        PerfilFragment perfilFragment = new PerfilFragment();
 
         //DefinicoesApiFragment definicoesApiFragment = new DefinicoesApiFragment();
 
 
-
         //Criar as notificações quando se adiciona ao carrinho
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.home) {
-                CarregarFragmentAtual(paginaInicialFragment);
+                fragment = new PaginaInicialFragment();
+                CarregarFragmentAtual(fragment);
                 return true;
             } else if (itemId == R.id.carrinho) {
                //load Carrinho Activity
@@ -65,7 +62,8 @@ public class MainActivity extends AppCompatActivity implements LinhaCarrinhoList
                 startActivity(intent);
                 return true;
             } else if (itemId == R.id.perfil) {
-                CarregarFragmentAtual(perfilFragment);
+                fragment = new PerfilDPFragment();
+                CarregarFragmentAtual(fragment);
                 return true;
             } else if (itemId == R.id.favoritos) {
                 CarregarFragmentAtual(new FavoritosFragment());
@@ -80,11 +78,7 @@ public class MainActivity extends AppCompatActivity implements LinhaCarrinhoList
     }
 
     private void CarregarFragmentAtual(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.flFragment, fragment)
-                .addToBackStack(null)
-                .commit();
+        fragmentManager.beginTransaction().replace(R.id.flFragment, fragment).commit();
     }
 
    /* public void CriarNotificacaoCarrinho() {

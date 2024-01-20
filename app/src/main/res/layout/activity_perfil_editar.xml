@@ -40,7 +40,7 @@
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Editar Dados De Morada"
+                    android:text="Editar Dados"
                     android:textColor="@color/blue_grey"
                     android:textSize="30sp"
                     android:textStyle="bold" />
@@ -48,11 +48,71 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/etRua"
+                android:id="@+id/etNome"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edit_text_background"
+                android:ems="10"
+                android:hint="Primeiro Nome"
+                android:inputType="text"
+                android:textAlignment="center"
+                android:textColorHint="@color/blue_grey"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etApelido"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edit_text_background"
+                android:ems="10"
+                android:hint="Apelido"
+                android:inputType="text"
+                android:textAlignment="center"
+                android:textColorHint="@color/blue_grey"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etTelemovel"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edit_text_background"
+                android:ems="10"
+                android:hint="Número de Telemóvel"
+                android:inputType="phone"
+                android:textAlignment="center"
+                android:textColorHint="@color/blue_grey"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etNif"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edit_text_background"
+                android:ems="10"
+                android:hint="NIF"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:textColorHint="@color/blue_grey"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etRua"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/edit_text_background"
                 android:ems="10"
@@ -92,8 +152,57 @@
                 android:textColorHint="@color/blue_grey"
                 android:textSize="16sp" />
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                app:boxCornerRadiusTopStart="30dp"
+                app:boxCornerRadiusTopEnd="30dp"
+                app:boxCornerRadiusBottomStart="30dp"
+                app:boxCornerRadiusBottomEnd="30dp"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                app:boxStrokeColor="@color/red"
+                android:hint="Selecione o seu género"
+                app:hintTextColor="#1B79BB"
+                app:boxStrokeWidthFocused="1dp"
+                app:boxStrokeWidth="1dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu" >
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoComplete_txtGenero"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/txtDataNascimento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Data de Nascimento:"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/dataPickerButton"
+                style="?android:spinnerStyle"
+                android:layout_width="171dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:onClick="openDatePicker"
+                android:text="01 JAN 2000"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/atualizarDadoBtn"
+                android:id="@+id/btnGuardar"
                 style="@android:style/Widget.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,7 +216,7 @@
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/cancelarBtn"
+                android:id="@+id/btnCancelar"
                 style="@android:style/Widget.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

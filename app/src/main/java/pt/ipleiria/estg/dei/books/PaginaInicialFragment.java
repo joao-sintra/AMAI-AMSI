@@ -1,17 +1,18 @@
 package pt.ipleiria.estg.dei.books;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
@@ -23,10 +24,12 @@ import pt.ipleiria.estg.dei.books.Modelo.SingletonProdutos;
 import pt.ipleiria.estg.dei.books.Modelo.Utilizador;
 import pt.ipleiria.estg.dei.books.adaptadores.BestProdutosAdaptador;
 import pt.ipleiria.estg.dei.books.databinding.FragmentPaginaInicialBinding;
+import pt.ipleiria.estg.dei.books.listeners.LoginListener;
 import pt.ipleiria.estg.dei.books.listeners.ProdutoListener;
 import pt.ipleiria.estg.dei.books.listeners.ProdutosListener;
+import pt.ipleiria.estg.dei.books.listeners.SignupListener;
 
-public class PaginaInicialFragment extends Fragment implements ProdutosListener, ProdutoListener {
+public class PaginaInicialFragment extends Fragment implements ProdutosListener, ProdutoListener, LoginListener, SignupListener {
 
     private FragmentPaginaInicialBinding binding;
     public ArrayList<Produto> listaProdutos;
@@ -34,6 +37,9 @@ public class PaginaInicialFragment extends Fragment implements ProdutosListener,
     private ArrayList<Produto> filteredList;
     private SearchView searchView;
     private String username;
+    private SingletonProdutos singleton;
+    private Utilizador utilizador;
+    private Utilizador loggedInUser;
     private TextView txtUsername, botaoFaturas;
 
 
@@ -45,14 +51,29 @@ public class PaginaInicialFragment extends Fragment implements ProdutosListener,
         binding = FragmentPaginaInicialBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        SingletonProdutos singleton = SingletonProdutos.getInstance(getContext());
+        singleton = SingletonProdutos.getInstance(getContext());
 
-        int userId = singleton.getUserId(getContext());
-        String username = singleton.getUsernameById(userId);
+        utilizador = SingletonProdutos.getInstance(getContext()).getUtilizador();
 
-        txtUsername = view.findViewById(R.id.txtUsername);
+        SingletonProdutos.getInstance(getContext()).setLoginListener(this);
 
-        txtUsername.setText(username);
+        ImageView imgLogout = view.findViewById(R.id.imgLogout);
+
+        imgLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout(v);
+            }
+        });
+
+        if (utilizador != null) {
+            username = utilizador.getUsername();
+            txtUsername = binding.txtUsername;
+            txtUsername.setText(username);
+        } else {
+            // Handle the case when utilizador is null
+            Log.e("PaginaInicialFragment", "Utilizador is null");
+        }
 
         binding.VerTodosBtn.setOnClickListener(v -> goToListaProdutosActivity());
 
@@ -108,6 +129,7 @@ public class PaginaInicialFragment extends Fragment implements ProdutosListener,
         // Start the activity
         startActivity(intent);
     }
+
     @Override
     public void onRefreshListaProdutos(ArrayList<Produto> listaProdutos) {
         // Shuffle the listaProdutos array
@@ -146,4 +168,45 @@ public class PaginaInicialFragment extends Fragment implements ProdutosListener,
         startActivity(intent);
     }
 
+    public void logout(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Logout");
+        builder.setMessage("Tem a certeza que pretende terminar a sua sessão?");
+        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Call the logout method from SingletonProdutos
+                SingletonProdutos.getInstance(getContext()).logout(getContext());
+            }
+        });
+        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    public void onUpdateLogin(Utilizador user) {
+        // Update UI components with user information
+        txtUsername.setText(user.getUsername());
+        // Add other UI updates if needed
+    }
+
+    @Override
+    public void onUpdateSignup(Utilizador utilizador) {
+        // Handle UI updates after signup
+        loggedInUser = utilizador;
+
+        if (loggedInUser != null) {
+            // Update UI components with user information
+            txtUsername.setText(loggedInUser.getUsername());
+            // Add other UI updates if needed
+        } else {
+            // Handle the case when the signup process didn't provide a valid user
+            Log.e("PaginaInicialFragment", "Signup failed. loggedInUser is null.");
+        }
+    }
 }

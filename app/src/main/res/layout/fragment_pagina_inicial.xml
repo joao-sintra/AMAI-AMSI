@@ -45,7 +45,7 @@
                     app:layout_constraintVertical_chainStyle="packed" />
 
                 <ImageView
-                    android:id="@+id/logoutBtn"
+                    android:id="@+id/imgLogout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"

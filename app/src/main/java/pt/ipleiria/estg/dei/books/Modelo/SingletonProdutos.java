@@ -1,11 +1,14 @@
 package pt.ipleiria.estg.dei.books.Modelo;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -25,6 +28,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import pt.ipleiria.estg.dei.books.LoginActivity;
+import pt.ipleiria.estg.dei.books.R;
 import pt.ipleiria.estg.dei.books.listeners.CarrinhoListener;
 import pt.ipleiria.estg.dei.books.listeners.FaturaListener;
 import pt.ipleiria.estg.dei.books.listeners.FaturasListener;
@@ -37,6 +42,7 @@ import pt.ipleiria.estg.dei.books.listeners.LoginListener;
 import pt.ipleiria.estg.dei.books.listeners.PagamentoListener;
 import pt.ipleiria.estg.dei.books.listeners.ProdutoListener;
 import pt.ipleiria.estg.dei.books.listeners.ProdutosListener;
+import pt.ipleiria.estg.dei.books.listeners.ProfileUpdateListener;
 import pt.ipleiria.estg.dei.books.utils.CarrinhoJsonParser;
 import pt.ipleiria.estg.dei.books.utils.FaturasJsonParser;
 import pt.ipleiria.estg.dei.books.utils.LinhaCarrinhoJsonParser;
@@ -57,8 +63,7 @@ public class SingletonProdutos {
     public ArrayList<LinhaCarrinho> linhaCarrinhos = new ArrayList<>();
     public Carrinho carrinho;
     public LinhaCarrinho linhaCarrinho;
-    public Utilizador utilizador;
-    public Utilizador utilizadorData;
+    public Utilizador utilizador, utilizadorData;
     public Pagamento pagamento;
     private static volatile SingletonProdutos instance = null;
     private static int user_id;
@@ -75,12 +80,8 @@ public class SingletonProdutos {
     /*private ProdutoBDHelper produtosBD=null;*/
 
     private static RequestQueue volleyQueue = null;
-
-
-    //private static final String mUrlAPILogin = "http://amsi.dei.estg.ipleiria.pt/api/auth/login";
-    //public static final String TOKEN = "AMSI-TOKEN";
-
     private LoginListener loginListener;
+    private ProfileUpdateListener profileUpdateListener;
     private UtilizadorDataListener utilizadorDataListener;
     private SignupListener signupListener;
     private ProdutosListener produtosListener;
@@ -92,6 +93,7 @@ public class SingletonProdutos {
     private FaturaListener faturaListener;
     private LinhasFaturasListener linhasFaturasListener;
     private PagamentoListener pagamentoListener;
+    private Utilizador loggedInUser;
 
 
     public static synchronized SingletonProdutos getInstance(Context context) {
@@ -108,7 +110,6 @@ public class SingletonProdutos {
 
     private SingletonProdutos(Context context) {
         produtos = new ArrayList<>();
-        utilizadoresBD = new UtilizadorBDHelper(context);
         /*produtosBD = new ProdutoBDHelper(context);*/
     }
 
@@ -145,6 +146,13 @@ public class SingletonProdutos {
 
     public Carrinho getCarrinho() {
         return carrinho;
+    }
+
+    public Utilizador getUtilizador() {
+        return utilizador;
+    }
+    public Utilizador getUtilizadorData() {
+        return utilizadorData;
     }
 
     public ArrayList<LinhaCarrinho> getLinhaCarrinhos() {
@@ -208,20 +216,6 @@ public class SingletonProdutos {
                 return linhaCarrinho;
         }
         return null;
-    }
-
-    public void adicionarUtilizadorBD(Utilizador utilizador) {
-        utilizadoresBD.adicionarUtilizadorBD(utilizador);
-    }
-
-    public void editarUtilizadorBD(Utilizador utilizador) {
-        if(utilizador != null){
-            utilizadoresBD.editarUtilizadorBD(utilizador);
-        }
-    }
-
-    public String getUsernameById(int userId) {
-        return utilizadoresBD.getUsernameById(userId);
     }
 
     public void getAllProdutosAPI(final Context context) {
@@ -327,10 +321,9 @@ public class SingletonProdutos {
     }
 
     private String urlGetLinhasCarrinho(int carrinho_id, Context context) {
-
-
         return "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtoscarrinhos/"+carrinho_id+"/dados?access-token="+getUserToken(context);
     }
+
     public void getLinhasCarrinhosAPI(final Context context, Carrinho carrinho) {
         if (!ProdutoJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
@@ -486,18 +479,15 @@ public class SingletonProdutos {
             JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, mUrlAPILogin, jsonParams, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    // Parse the JSON response and add the user to the local database
                     utilizador = LoginJsonParser.parserJsonLogin(response);
 
-                    // Save the user's token to SharedPreferences
+                    // Save the user's ID, token, and username to SharedPreferences
                     saveUserId(context, utilizador.getId());
-                    saveUserToken(context, utilizador.getAuth_key());
+                    saveUserToken(context, utilizador.getAuth_key(), utilizador.getUsername());
 
                     // Add the user to the local database only if it doesn't already exist
-                    if (!isUsernameExists(context, username)) {
-                        if(utilizador.getId() != 0 || utilizador.getAuth_key() != null) {
-                            getUserDataAPI(context, utilizador.getId(), utilizador.getAuth_key(), utilizador);
-                        }
+                    if(utilizador.getId() != 0 || utilizador.getAuth_key() != null) {
+                        getUserDataAPI(context);
                     }
 
                     if (loginListener != null) {
@@ -508,32 +498,30 @@ public class SingletonProdutos {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(context, "Credenciais incorretas", Toast.LENGTH_SHORT).show();
+
+                    if (utilizador != null) {
+                        Log.e("LoginAPI", "Utilizador not null: " + utilizador.getUsername());
+                        // Check if other conditions or actions need to be taken
+                    } else {
+                        Log.e("LoginAPI", "Utilizador is null");
+                    }
+
+                    // Check if loginListener is not null before using it
+                    if (loginListener != null) {
+                        loginListener.onUpdateLogin(utilizador);
+                    }
                 }
             });
             volleyQueue.add(req);
         }
     }
 
-    private boolean isUsernameExists(Context context, String username) {
-        UtilizadorBDHelper dbHelper = new UtilizadorBDHelper(context);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        String query = "SELECT COUNT(*) FROM UtilizadoresTable WHERE username=?";
-        String[] selectionArgs = {username};
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        dbHelper.close();
-
-        return count > 0;
-    }
-
-    public void getUserDataAPI(final Context context, int utilizadorID, String TOKEN_USER_LOGIN, final Utilizador utilizador) {
+    public void getUserDataAPI(Context context) {
         if (!ProdutoJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
         } else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, getmUrlAPIUserData(utilizadorID, TOKEN_USER_LOGIN), null, new Response.Listener<JSONArray>() {
+            int utilizadorID = getUserId(context); // Fetch user ID from SharedPreferences
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, getmUrlAPIUserData(context), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     for (int i = 0; i < response.length(); i++) {
@@ -541,12 +529,10 @@ public class SingletonProdutos {
                             JSONObject item = response.getJSONObject(i);
                             utilizadorData = LoginJsonParser.parserJsonGetUtilizadorData(item);
 
-                            // Move the database insertion logic here
-                            adicionarUtilizadorDataBD(context, utilizadorData, utilizador);
-
                             if (utilizadorDataListener != null) {
                                 utilizadorDataListener.onGetUtilizadorData(utilizadorData);
                             }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -562,14 +548,16 @@ public class SingletonProdutos {
         }
     }
 
-    private String getmUrlAPIUserData(int utilizadorID, String TOKEN_USER_LOGIN) {
-        return "http://172.22.21.211/AMAI-plataformas/backend/web/api/users/"+ utilizadorID +"?access-token=" + TOKEN_USER_LOGIN;
+    private String getmUrlAPIUserData(Context context) {
+
+        return "http://172.22.21.211/AMAI-plataformas/backend/web/api/users/"+getUserId(context)+"?access-token=" +getUserToken(context);
     }
 
-    public void saveUserToken(Context context, String token) {
+    public void saveUserToken(Context context, String token, String username) {
         SharedPreferences preferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("user_token", token);
+        editor.putString("username", username);
         editor.apply();
     }
 
@@ -578,71 +566,6 @@ public class SingletonProdutos {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("user_id", userId);
         editor.apply();
-    }
-
-    private void adicionarUtilizadorDataBD(Context context, Utilizador utilizadorData, Utilizador utilizador) {
-        String TABLE_NAME = "UtilizadoresTable";
-
-        ContentValues values = new ContentValues();
-
-        values.put("id", utilizador.getId());
-        values.put("username", utilizador.getUsername());
-        values.put("primeironome", utilizadorData.getPrimeironome());
-        values.put("apelido", utilizadorData.getApelido());
-        values.put("email", utilizador.getEmail());
-        values.put("codigopostal", utilizadorData.getCodigopostal());
-        values.put("rua", utilizadorData.getRua());
-        values.put("localidade", utilizadorData.getLocalidade());
-        values.put("dtanasc", utilizadorData.getDtanasc());
-        values.put("telefone", utilizadorData.getTelefone());
-        values.put("nif", utilizadorData.getNif());
-        values.put("genero", utilizadorData.getGenero());
-        values.put("auth_key", utilizador.getAuth_key());
-        values.put("password_hash", utilizador.getPassword_hash());
-        values.put("password_reset_token", utilizador.getPassword_reset_token());
-        values.put("status", utilizador.getStatus());
-        values.put("created_at", utilizador.getCreated_at());
-        values.put("updated_at", utilizador.getUpdated_at());
-        values.put("verification_token", utilizador.getVerification_token());
-
-
-        // Assuming you have a UtilizadorDataBDHelper instance and a writable database
-        UtilizadorBDHelper dbHelper = new UtilizadorBDHelper(context);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        // Insert the user data into the database
-        // Example query (you should adjust it based on your database schema):
-        db.insert(TABLE_NAME, null, values);
-
-        dbHelper.close();
-    }
-
-    private void adicionarUtilizadorSignupBD(Context context, Utilizador utilizador) {
-        String TABLE_NAME = "UtilizadoresTable";
-
-        ContentValues values = new ContentValues();
-
-        values.put("id", utilizador.getId());
-        values.put("username", utilizador.getUsername());
-        values.put("email", utilizador.getEmail());
-        values.put("auth_key", utilizador.getAuth_key());
-        values.put("password_hash", utilizador.getPassword_hash());
-        values.put("password_reset_token", utilizador.getPassword_reset_token());
-        values.put("status", utilizador.getStatus());
-        values.put("created_at", utilizador.getCreated_at());
-        values.put("updated_at", utilizador.getUpdated_at());
-        values.put("verification_token", utilizador.getVerification_token());
-
-
-        // Assuming you have a UtilizadorDataBDHelper instance and a writable database
-        UtilizadorBDHelper dbHelper = new UtilizadorBDHelper(context);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        // Insert the user data into the database
-        // Example query (you should adjust it based on your database schema):
-        db.insert(TABLE_NAME, null, values);
-
-        dbHelper.close();
     }
 
     public void signupAPI(final String username, final String password, final String email, final Context context) {
@@ -655,37 +578,94 @@ public class SingletonProdutos {
                 jsonParams.put("password", password);
                 jsonParams.put("email", email);
             } catch (JSONException e) {
-                // This catch block will not be executed, but you can log the exception if needed
                 e.printStackTrace();
             }
 
             JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, mUrlAPISignup, jsonParams, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Utilizador newUser = LoginJsonParser.parserJsonLogin(response);
+                    utilizador = LoginJsonParser.parserJsonLogin(response);
 
-                    // Check if the username already exists in the local database
-                    if (!isUsernameExists(context, newUser.getUsername())) {
-                        // Save the user's ID and token to SharedPreferences
-                        saveUserId(context, newUser.getId());
-                        saveUserToken(context, newUser.getAuth_key());
+                    // Update the loggedInUser in SingletonProdutos with the new user data
+                    loggedInUser = utilizador;
 
-                        // Add the new user to the local database
-                        adicionarUtilizadorSignupBD(context, newUser);
+                    // Save the user's ID and token to SharedPreferences
+                    saveUserId(context, utilizador.getId());
+                    saveUserToken(context, utilizador.getAuth_key(), utilizador.getUsername());
 
-                        // Perform additional actions as needed
-                        if (signupListener != null) {
-                            signupListener.onUpdateSignup(newUser);
-                        }
-                    } else {
-                        // Handle the case where the username already exists
-                        Toast.makeText(context, "O Username introduzido já existe", Toast.LENGTH_SHORT).show();
+                    // Perform additional actions as needed
+                    if (signupListener != null) {
+                        signupListener.onUpdateSignup(utilizador);
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(context, "Error durante o signup", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            volleyQueue.add(req);
+        }
+    }
+
+    public void logout(Context context) {
+        // Clear the SharedPreferences data
+        SharedPreferences preferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+        utilizador = null;
+        utilizadorData = null;
+
+        // Other logout-related actions can be added here if needed
+
+        // Redirect the user to the login screen or perform any necessary actions
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
+        ((Activity) context).finish(); // Finish the current activity to prevent going back to it
+    }
+
+    private String urlPostAPIPerfilDados(Context context) {
+
+        return "http://172.22.21.211/AMAI-plataformas/backend/web/api/users/"+getUserId(context)+"/criar?access-token="+getUserToken(context);
+    }
+
+    public void updateProfileAPI(final String primeironome, final String apelido, final String telemovel, final String nif, final String genero, final String dtaNascimento, final String rua, final String localidade, final String codigoPostal, final Context context) {
+        if (!ProdutoJsonParser.isConnectionInternet(context)) {
+            Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
+        } else {
+            JSONObject jsonParams = new JSONObject();
+            try {
+                jsonParams.put("primeironome", primeironome);
+                jsonParams.put("apelido", apelido);
+                jsonParams.put("telefone", telemovel);
+                jsonParams.put("nif", nif);
+                jsonParams.put("genero", genero);
+                jsonParams.put("dtanasc", dtaNascimento);
+                jsonParams.put("rua", rua);
+                jsonParams.put("localidade", localidade);
+                jsonParams.put("codigopostal", codigoPostal);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, urlPostAPIPerfilDados(context), jsonParams, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    // Handle the response from the server after updating the profile
+                    // For example, you may parse the response JSON and update the UI or perform additional actions
+
+                    // Notify listeners or update UI as needed
+                    if (profileUpdateListener != null) {
+                        profileUpdateListener.onProfileUpdated(response.toString());
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // Handle error response
+                    Toast.makeText(context, "Error durante a atualização do perfil", Toast.LENGTH_SHORT).show();
                 }
             });
 

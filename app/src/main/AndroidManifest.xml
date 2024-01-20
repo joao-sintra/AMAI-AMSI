@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
 
+
         <activity
             android:name=".IntroActivity"
             android:exported="true" />
@@ -40,7 +41,7 @@
         <activity
             android:name=".ListaProdutosActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".MainActivity" />
             />
         <activity
             android:name=".SignupActivity"
@@ -53,6 +54,7 @@
             android:name=".LoginActivity"
             android:exported="false"
             android:launchMode="singleTop" />
+
         <activity
             android:name=".CheckoutActivity"
             android:exported="false"
@@ -69,6 +71,9 @@
             android:name=".FaturaActivity"
             android:exported="false"
             android:parentActivityName=".ListaFaturasActivity" />
+        <activity
+            android:name=".PerfilEditActivity"
+            android:exported="false" />
 
 
     </application>

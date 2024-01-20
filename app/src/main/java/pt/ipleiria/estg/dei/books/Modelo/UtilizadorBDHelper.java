@@ -82,41 +82,6 @@ public class UtilizadorBDHelper extends SQLiteOpenHelper {
 
         return utilizador;
     }
-    public void adicionarUtilizadorDataBD(Context context, Utilizador utilizadorData, Utilizador utilizador) {
-        String TABLE_NAME = "UtilizadoresTable";
-
-        ContentValues values = new ContentValues();
-
-        values.put("username", utilizador.getUsername());
-        values.put("primeironome", utilizadorData.getPrimeironome());
-        values.put("apelido", utilizadorData.getApelido());
-        values.put("email", utilizador.getEmail());
-        values.put("codigopostal", utilizadorData.getCodigopostal());
-        values.put("rua", utilizadorData.getRua());
-        values.put("localidade", utilizadorData.getLocalidade());
-        values.put("dtanasc", utilizadorData.getDtanasc());
-        values.put("telefone", utilizadorData.getTelefone());
-        values.put("nif", utilizadorData.getNif());
-        values.put("genero", utilizadorData.getGenero());
-        values.put("auth_key", utilizador.getAuth_key());
-        values.put("password_hash", utilizador.getPassword_hash());
-        values.put("password_reset_token", utilizador.getPassword_reset_token());
-        values.put("status", utilizador.getStatus());
-        values.put("created_at", utilizador.getCreated_at());
-        values.put("updated_at", utilizador.getUpdated_at());
-        values.put("verification_token", utilizador.getVerification_token());
-
-
-        // Assuming you have a UtilizadorDataBDHelper instance and a writable database
-        UtilizadorBDHelper dbHelper = new UtilizadorBDHelper(context);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        // Insert the user data into the database
-        // Example query (you should adjust it based on your database schema):
-        db.insert(TABLE_NAME, null, values);
-
-        dbHelper.close();
-    }
 
     public boolean editarUtilizadorBD(Utilizador utilizador){
         ContentValues values = new ContentValues();
