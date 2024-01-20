@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,8 @@ public class CheckoutActivity extends AppCompatActivity implements FaturasListen
                 SingletonProdutos.getInstance(getApplicationContext()).adicionarFaturaAPI(getApplicationContext());
                 SingletonProdutos.getInstance(getApplicationContext()).setPagamentoListener(pagamentoListener);
                 SingletonProdutos.getInstance(getApplicationContext()).adicionarPagamentoAPI(getApplicationContext(), selectedPaymentMethod, selectedShippingMethod);
+                //make a toast
+                Toast.makeText(getApplicationContext(), "Encomenda finalizada com sucesso", Toast.LENGTH_SHORT).show();
                 //i want to send to main activity
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);

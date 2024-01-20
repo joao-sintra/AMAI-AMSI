@@ -29,5 +29,9 @@ public class IntroActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+    public void onSettingsClick(View view) {
+        Intent intent = new Intent(this, DefinicoesActivity.class);
+        startActivity(intent);
+    }
 
 }

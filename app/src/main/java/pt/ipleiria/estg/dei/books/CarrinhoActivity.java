@@ -79,6 +79,8 @@ public class CarrinhoActivity extends AppCompatActivity implements LinhasCarrinh
         tvTotalCarrinho.setText(carrinho.getValorTotal() + " €");
         if (carrinho.getValorTotal() == 0.0) {
             btnFinalizarEncomenda.setVisibility(View.INVISIBLE);
+        }else {
+            btnFinalizarEncomenda.setVisibility(View.VISIBLE);
         }
     }
 
@@ -90,6 +92,8 @@ public class CarrinhoActivity extends AppCompatActivity implements LinhasCarrinh
 
             if (carrinho.getValorTotal() == 0.0) {
                 btnFinalizarEncomenda.setVisibility(View.INVISIBLE);
+            }else {
+                btnFinalizarEncomenda.setVisibility(View.VISIBLE);
             }
         }
         carrinho = SingletonProdutos.getInstance(getApplicationContext()).getCarrinho();

@@ -20,16 +20,8 @@
             android:layout_alignParentTop="true"/>
 
         <!-- Address List Label -->
-        <TextView
-            android:id="@+id/tvMoradaUtilizador"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Morada:"
-            android:textSize="18sp"
-            android:padding="16dp"
-            android:textStyle="bold"/>
 
-        <!-- Existing RelativeLayout with Shipping, Payment, and Checkout elements -->
+    <!-- Existing RelativeLayout with Shipping, Payment, and Checkout elements -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

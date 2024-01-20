@@ -40,7 +40,7 @@ public class PaginaInicialFragment extends Fragment implements ProdutosListener,
     private SingletonProdutos singleton;
     private Utilizador utilizador;
     private Utilizador loggedInUser;
-    private TextView txtUsername, botaoFaturas;
+    private TextView txtUsername;
 
 
 
@@ -90,15 +90,9 @@ public class PaginaInicialFragment extends Fragment implements ProdutosListener,
         searchView = view.findViewById(R.id.searchView);
 
         setupSearchView();
-        botaoFaturas = view.findViewById(R.id.botaoFaturas);
+
         //on click listener para o botao faturas
-        botaoFaturas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ListaFaturasActivity.class);
-                startActivity(intent);
-            }
-        });
+
 
         return view;
     }

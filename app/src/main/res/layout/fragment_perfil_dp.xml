@@ -53,7 +53,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="32dp"
-                        android:src="@drawable/profile"
+                        android:src="@drawable/icons8_administrator_male_96"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -162,7 +162,7 @@
                                         android:id="@+id/imageView3"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:src="@drawable/wallet"
+                                        android:src="@drawable/icons8_about_me_48"
                                         app:layout_constraintBottom_toBottomOf="parent"
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"
@@ -202,7 +202,7 @@
                                         android:id="@+id/imageView4"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:src="@drawable/settings"
+                                        android:src="@drawable/icons8_about_me_48"
                                         app:layout_constraintBottom_toBottomOf="parent"
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"
@@ -222,6 +222,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/linearLayoutFaturas"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_margin="10dp"
@@ -239,9 +240,9 @@
 
                                     <ImageView
                                         android:id="@+id/imageView5"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="120px"
                                         android:layout_height="wrap_content"
-                                        android:src="@drawable/notification"
+                                        android:src="@drawable/invoice_icon_155913"
                                         app:layout_constraintBottom_toBottomOf="parent"
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"

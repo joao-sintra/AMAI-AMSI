@@ -21,7 +21,7 @@ import pt.ipleiria.estg.dei.books.Modelo.Utilizador;
 public class PerfilDPFragment extends Fragment {
 
     private Button btnEditarPerfil;
-    private LinearLayout btnPerfilDM, btnPerfilDP;
+    private LinearLayout btnPerfilDM, btnPerfilDP, btnFaturas;
     private View view;
     private TextView tvUsername, tvPrimeiroNome, tvApelido, tvEmail, tvTelemovel, tvNIF, tvGenero, tvDtaNascimento;
     private TextView textoGenero, textoNIF, textoTelemovel;
@@ -104,6 +104,7 @@ public class PerfilDPFragment extends Fragment {
 
         btnPerfilDM = view.findViewById(R.id.linearLayoutPerfilDM);
         btnPerfilDP = view.findViewById(R.id.linearLayoutPerfilDP);
+        btnFaturas = view.findViewById(R.id.linearLayoutFaturas);
         btnEditarPerfil = view.findViewById(R.id.btnPerfilDP);
 
         view3 = view.findViewById(R.id.view3);
@@ -132,6 +133,15 @@ public class PerfilDPFragment extends Fragment {
                 onClickBtnPerfilDP();
             }
         });
+        btnFaturas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Log.d("ClickEvent", "btnFaturas clicked");
+                Intent intent = new Intent(getContext(), ListaFaturasActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         return view;
     }
@@ -233,7 +243,7 @@ public class PerfilDPFragment extends Fragment {
                 tvNIF.setText(utilizadorData.getNif() != null && !Objects.equals(utilizadorData.getNif(), "null") ? utilizadorData.getNif() : "por definir");
             }
             if (tvGenero != null) {
-                tvGenero.setText(utilizadorData.getGenero() != null && !Objects.equals(utilizadorData.getGenero(), "null") ? utilizadorData.getGenero() : "por definir");
+                tvGenero.setText(utilizadorData.getCodigopostal() != null && !Objects.equals(utilizadorData.getCodigopostal(), "null") ? utilizadorData.getCodigopostal() : "por definir");
             }
 
             // Find other TextView objects by their IDs

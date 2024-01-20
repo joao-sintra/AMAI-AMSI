@@ -1,6 +1,9 @@
 package pt.ipleiria.estg.dei.books.adaptadores;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +21,14 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import java.util.ArrayList;
 import java.util.List;
 
+import pt.ipleiria.estg.dei.books.DetalhesProdutoActivity;
+import pt.ipleiria.estg.dei.books.Modelo.FavoritosBDHelper;
 import pt.ipleiria.estg.dei.books.Modelo.Produto;
+import pt.ipleiria.estg.dei.books.Modelo.SingletonProdutos;
 import pt.ipleiria.estg.dei.books.R;
 import pt.ipleiria.estg.dei.books.listeners.ProdutoListener;
 
-public class ListaProdutosAdaptador extends RecyclerView.Adapter<ListaProdutosAdaptador.ViewHolder> {
+public class ListaProdutosAdaptador extends RecyclerView.Adapter<ListaProdutosAdaptador.ViewHolder> implements ProdutoListener {
     private ProdutoListener produtoListener;
 
     public Context context;
@@ -75,6 +81,24 @@ public class ListaProdutosAdaptador extends RecyclerView.Adapter<ListaProdutosAd
     public void setProdutos(ArrayList<Produto> listaProdutos) {
         this.produtos = listaProdutos;
 
+    }
+
+    @Override
+    public void onItemClick(int position, Produto product) {
+        Intent intent = new Intent(context, DetalhesProdutoActivity.class);
+        intent.putExtra(DetalhesProdutoActivity.PRODUTO, product);
+
+        // Check if the product is in the Favoritos table for the current user
+        int userID = SingletonProdutos.getInstance(context).getUserId(context);
+        FavoritosBDHelper dbHelper = new FavoritosBDHelper(context);
+
+        boolean isProdutoInFavorites = dbHelper.isProdutoInFavorites(userID, product.getId());
+        dbHelper.close();
+
+        // Pass the information to the details activity
+        intent.putExtra(DetalhesProdutoActivity.IS_FAVORITE, isProdutoInFavorites);
+
+        startActivity(context,intent,null);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
