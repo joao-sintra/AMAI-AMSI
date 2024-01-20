@@ -657,7 +657,7 @@ public class SingletonProdutos {
         if (!ProdutoJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
         } else {
-            StringRequest req = new StringRequest(Request.Method.POST, mUrlApiPostFatura(context) + getUserToken(context), new Response.Listener<String>() {
+            StringRequest req = new StringRequest(Request.Method.POST, mUrlApiPostFatura(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
 
@@ -753,7 +753,7 @@ public class SingletonProdutos {
             Toast.makeText(context, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
 
         } else {
-            StringRequest req = new StringRequest(Request.Method.POST, mUrlAPIPostPagamento(context) + getUserToken(context), new Response.Listener<String>() {
+            StringRequest req = new StringRequest(Request.Method.POST, mUrlAPIPostPagamento(context), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if (pagamentoListener != null) {
@@ -827,13 +827,11 @@ public class SingletonProdutos {
     }
 
     private String mUrlAPIUserData(Context context) {
-
         return "http://" + getApiIP(context) + "/AMAI-plataformas/backend/web/api/users/" + getUserId(context) + "?access-token=" + getUserToken(context);
     }
 
     private String mUrlGetFaturas(Context context) {
-        int user_id = getUserId(context);
-        return "http://" + getApiIP(context) + "/AMAI-plataformas/backend/web/api/faturas/" + user_id + "/user?access-token=" + getUserToken(context);
+        return "http://" + getApiIP(context) + "/AMAI-plataformas/backend/web/api/faturas/" + getUserId(context) + "/user?access-token=" + getUserToken(context);
     }
 
     private String mUrlGetLinhasFaturas(int fatura_id, Context context) {
@@ -841,7 +839,6 @@ public class SingletonProdutos {
     }
 
     private String mUrlUpdateLinha(int id, Context context) {
-
         return "http://" + getApiIP(context) + "/AMAI-plataformas/backend/web/api/produtoscarrinhos/" + id + "/update?access-token=" + getUserToken(context);
     }
 

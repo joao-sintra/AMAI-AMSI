@@ -87,6 +87,7 @@ public class CarrinhoActivity extends AppCompatActivity implements LinhasCarrinh
     @Override
     public void onRefreshListaLinhasCarrinhos(ArrayList<LinhaCarrinho> listaLinhaCarrinho) {
         // SingletonProdutos.getInstance(getApplicationContext()).getCarrinhoAPI(getApplicationContext());
+        carrinho = SingletonProdutos.getInstance(getApplicationContext()).getCarrinho();
         if (carrinho != null) {
 
 
@@ -96,7 +97,7 @@ public class CarrinhoActivity extends AppCompatActivity implements LinhasCarrinh
                 btnFinalizarEncomenda.setVisibility(View.VISIBLE);
             }
         }
-        carrinho = SingletonProdutos.getInstance(getApplicationContext()).getCarrinho();
+
 
         tvTotalCarrinho.setText(carrinho.getValorTotal() + " €");
         adapter = new LinhaCarrinhoAdaptador(getApplicationContext(), this, listaLinhaCarrinho, this, carrinho);
