@@ -26,7 +26,7 @@ import pt.ipleiria.estg.dei.books.Modelo.SingletonProdutos;
 import pt.ipleiria.estg.dei.books.databinding.ActivityMainBinding;
 import pt.ipleiria.estg.dei.books.listeners.CarrinhoListener;
 
-public class MainActivity extends AppCompatActivity implements CarrinhoListener  {
+public class MainActivity extends AppCompatActivity implements CarrinhoListener {
 
     private ActivityMainBinding binding;
     private CarrinhoListener carrinhoListener;
@@ -47,9 +47,6 @@ public class MainActivity extends AppCompatActivity implements CarrinhoListener 
 
         PerfilFragment perfilFragment = new PerfilFragment();
 
-        DefinicoesApiFragment definicoesApiFragment = new DefinicoesApiFragment();
-
-
 
         CarrinhosFragment carrinhosFragment = new CarrinhosFragment();
         //Criar as notificações quando se adiciona ao carrinho
@@ -66,18 +63,12 @@ public class MainActivity extends AppCompatActivity implements CarrinhoListener 
             } else if (itemId == R.id.perfil) {
                 CarregarFragmentAtual(perfilFragment);
                 return true;
-            } else if (itemId == R.id.definicoes) {
-                CarregarFragmentAtual(definicoesApiFragment);
-                return true;
-            }
-            else if (itemId == R.id.favoritos) {
+            } else if (itemId == R.id.favoritos) {
                 CarregarFragmentAtual(new FavoritosFragment());
                 return true;
             }
             return false;
         });
-
-
 
 
     }

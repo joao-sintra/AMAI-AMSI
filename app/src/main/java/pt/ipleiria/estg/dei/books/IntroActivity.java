@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class IntroActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +18,7 @@ public class IntroActivity extends AppCompatActivity {
 
         TextView signupBtn = findViewById(R.id.signupBtn);
     }
+
 
     public void onSignupButtonClick(View view) {
         Intent intent = new Intent(this, SignupActivity.class);
@@ -26,4 +29,5 @@ public class IntroActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
 }

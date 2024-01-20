@@ -54,7 +54,8 @@ public class SingletonProdutos {
     private static final String mUrlAPIPostLinhaCarrinho = "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtoscarrinhos/criar?access-token=";
     private static final String mUrlApiPostCarrinho = "http://172.22.21.211/AMAI-plataformas/backend/web/api/carrinhos/criar?access-token=";
     //private LivroBDHelper livrosBD=null;
-    private static final String mUrlAPIProdutos = "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtos/all?access-token=";
+
+    private final String mUrlAPIProdutos = "http://172.22.21.211/AMAI-plataformas/backend/web/api/produtos/all?access-token=";
     private static final String mUrlAPILogin = "http://172.22.21.211/AMAI-plataformas/backend/web/api/auth/login";
     private static final String mUrlAPISignup = "http://172.22.21.211/AMAI-SIS/backend/web/api/auth/register";
     private UtilizadorBDHelper utilizadoresBD = null;
@@ -187,7 +188,7 @@ public class SingletonProdutos {
             if (produtosListener != null)
                 produtosListener.onRefreshListaProdutos(produtos);
         } else {
-            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutos + getUserToken(context), null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, mUrlAPIProdutos(context) + getUserToken(context), null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     // Add this line to log the response
@@ -215,7 +216,6 @@ public class SingletonProdutos {
 
     private String urlGetCarrinho(Context context) {
         int user_id = getUserId(context);
-
 
         return "http://172.22.21.211/AMAI-plataformas/backend/web/api/carrinhos/" + user_id + "/dados?access-token=" + getUserToken(context);
     }
@@ -654,4 +654,13 @@ public class SingletonProdutos {
         }
     }
 
+    public String mUrlAPIProdutos(Context context) {
+
+        return "http://" + getAPIURL(context) + "/AMAI-SIS/backend/web/api/produtos/all?access-token=";
+    }
+
+    private String getAPIURL(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("api_url", Context.MODE_PRIVATE);
+        return preferences.getString("API", null);
+    }
 }
