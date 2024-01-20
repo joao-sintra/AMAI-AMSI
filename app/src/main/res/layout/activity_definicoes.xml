@@ -24,7 +24,7 @@
         android:ems="10"
         android:hint="API URL"
         android:inputType="text"
-        android:text=""
+        android:text="172.22.21.211"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

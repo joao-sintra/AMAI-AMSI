@@ -26,8 +26,6 @@ public class ListaProdutosAdaptador extends RecyclerView.Adapter<ListaProdutosAd
     private ProdutoListener produtoListener;
 
     public Context context;
-    private List<Produto> filteredProdutos;
-    private LayoutInflater inflater;
     private ArrayList<Produto> produtos;
 
     public ListaProdutosAdaptador(ProdutoListener produtoListener, Context context, ArrayList<Produto> produtos) {
@@ -39,11 +37,11 @@ public class ListaProdutosAdaptador extends RecyclerView.Adapter<ListaProdutosAd
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View inflate = layoutInflater.inflate(R.layout.item_lista_produtos, null);
-        ViewHolder viewHolder = new ViewHolder(inflate, produtoListener);
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View inflate = layoutInflater.inflate(R.layout.item_lista_produtos, null);
+            ViewHolder viewHolder = new ViewHolder(inflate, produtoListener);
 
-        return viewHolder;
+            return viewHolder;
 
     }
 

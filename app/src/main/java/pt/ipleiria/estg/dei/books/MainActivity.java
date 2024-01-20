@@ -25,8 +25,9 @@ import pt.ipleiria.estg.dei.books.Modelo.Carrinho;
 import pt.ipleiria.estg.dei.books.Modelo.SingletonProdutos;
 import pt.ipleiria.estg.dei.books.databinding.ActivityMainBinding;
 import pt.ipleiria.estg.dei.books.listeners.CarrinhoListener;
+import pt.ipleiria.estg.dei.books.listeners.LinhaCarrinhoListener;
 
-public class MainActivity extends AppCompatActivity implements CarrinhoListener {
+public class MainActivity extends AppCompatActivity implements LinhaCarrinhoListener {
 
     private ActivityMainBinding binding;
     private CarrinhoListener carrinhoListener;
@@ -47,10 +48,11 @@ public class MainActivity extends AppCompatActivity implements CarrinhoListener 
 
         PerfilFragment perfilFragment = new PerfilFragment();
 
+        //DefinicoesApiFragment definicoesApiFragment = new DefinicoesApiFragment();
 
-        CarrinhosFragment carrinhosFragment = new CarrinhosFragment();
+
+
         //Criar as notificações quando se adiciona ao carrinho
-        /*CriarNotificacaoCarrinho();*/
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -58,7 +60,9 @@ public class MainActivity extends AppCompatActivity implements CarrinhoListener 
                 CarregarFragmentAtual(paginaInicialFragment);
                 return true;
             } else if (itemId == R.id.carrinho) {
-                CarregarFragmentAtual(carrinhosFragment);
+               //load Carrinho Activity
+                Intent intent = new Intent(getApplicationContext(),CarrinhoActivity.class);
+                startActivity(intent);
                 return true;
             } else if (itemId == R.id.perfil) {
                 CarregarFragmentAtual(perfilFragment);
@@ -69,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements CarrinhoListener 
             }
             return false;
         });
+
+
 
 
     }
@@ -92,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements CarrinhoListener 
 
 
     @Override
-    public void onRefreshListaCarrinho(Carrinho carrinho) {
+    public void onItemUpdate() {
 
     }
 }

@@ -20,6 +20,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import java.util.ArrayList;
 
+import pt.ipleiria.estg.dei.books.CarrinhoActivity;
+import pt.ipleiria.estg.dei.books.MainActivity;
+import pt.ipleiria.estg.dei.books.Modelo.Carrinho;
 import pt.ipleiria.estg.dei.books.Modelo.LinhaCarrinho;
 import pt.ipleiria.estg.dei.books.Modelo.Produto;
 import pt.ipleiria.estg.dei.books.Modelo.SingletonProdutos;
@@ -33,13 +36,16 @@ public class LinhaCarrinhoAdaptador extends RecyclerView.Adapter<LinhaCarrinhoAd
     private LinhasCarrinhosListener linhasCarrinhosListener;
     private LinhaCarrinhoListener linhaCarrinhoListener;
     private ArrayList<LinhaCarrinho> linhasCarrinho;
+    private Carrinho carrinho;
+    private MainActivity mainActivity;
 
 
-    public LinhaCarrinhoAdaptador(Context context, LinhasCarrinhosListener linhasCarrinhosListener, ArrayList<LinhaCarrinho> linhasCarrinho, LinhaCarrinhoListener linhaCarrinhoListener) {
+    public LinhaCarrinhoAdaptador(Context context, LinhasCarrinhosListener linhasCarrinhosListener, ArrayList<LinhaCarrinho> linhasCarrinho, LinhaCarrinhoListener linhaCarrinhoListener,Carrinho carrinho) {
         this.context = context;
         this.linhasCarrinhosListener = linhasCarrinhosListener;
         this.linhasCarrinho = linhasCarrinho;
         this.linhaCarrinhoListener = linhaCarrinhoListener;
+        this.carrinho = carrinho;
     }
 
     @NonNull
@@ -54,6 +60,7 @@ public class LinhaCarrinhoAdaptador extends RecyclerView.Adapter<LinhaCarrinhoAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+
         LinhaCarrinho linhaCarrinho = linhasCarrinho.get(position);
         int idpro = linhaCarrinho.getProdutoID();
         Produto produto = SingletonProdutos.getInstance(context).getProduto(idpro);
@@ -64,14 +71,21 @@ public class LinhaCarrinhoAdaptador extends RecyclerView.Adapter<LinhaCarrinhoAd
         String imageUrl = "http://172.22.21.211/AMAI-plataformas/frontend/web/public/imagens/produtos/" + produto.getImagem();
         Glide.with(holder.itemView.getContext()).load(imageUrl).transform(new CenterCrop(), new RoundedCorners(30)).into(holder.imgProdutoCarrinho);
 
+
+
+        //holder.tvTotalCarrinho.setText("0.00 €");
+
         holder.btnIncrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Increase quantity
                 linhaCarrinho.adicionarQuantidade();
-                notifyItemChanged(position);
+
                 SingletonProdutos.getInstance(context).updateLinhaCarrinhoAPI(context,linhaCarrinho);
+                SingletonProdutos.getInstance(context).setLinhaCarrinhoListener(linhaCarrinhoListener);
                 SingletonProdutos.getInstance(context).getCarrinhoAPI(context);
+
+                notifyItemChanged(position);
             }
         });
 
@@ -80,27 +94,32 @@ public class LinhaCarrinhoAdaptador extends RecyclerView.Adapter<LinhaCarrinhoAd
             public void onClick(View v) {
                 // Decrease quantity
                 linhaCarrinho.diminuirQuantidade();
-                notifyItemChanged(position);
+
                 SingletonProdutos.getInstance(context).updateLinhaCarrinhoAPI(context,linhaCarrinho);
+                SingletonProdutos.getInstance(context).setLinhaCarrinhoListener(linhaCarrinhoListener);
                 SingletonProdutos.getInstance(context).getCarrinhoAPI(context);
+                notifyItemChanged(position);
+
             }
         });
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Context buttonContext = v.getContext();
                 // Delete item
-                AlertDialog alert = new AlertDialog.Builder(context)
+                AlertDialog alert = new AlertDialog.Builder(buttonContext)
                         .setTitle("Remover produto")
                         .setMessage("Tem a certeza que pretende remover o produto do carrinho?")
                         .setPositiveButton("Sim", (dialog, which) -> {
-                            SingletonProdutos.getInstance(context).setLinhaCarrinhoListener(linhaCarrinhoListener);
-                            SingletonProdutos.getInstance(context).deleteLinhaCarrinhoAPI(context,linhaCarrinho);
+                            SingletonProdutos.getInstance(buttonContext).deleteLinhaCarrinhoAPI(buttonContext,linhaCarrinho);
+                            SingletonProdutos.getInstance(buttonContext).setLinhaCarrinhoListener(linhaCarrinhoListener);
 
                             linhasCarrinho.remove(position);
 
                             notifyItemRemoved(position);
                             notifyItemRangeChanged(position, linhasCarrinho.size());
+                            SingletonProdutos.getInstance(context).getCarrinhoAPI(context);
+
 
                         })
                         .setNegativeButton("Não", null)
@@ -110,7 +129,6 @@ public class LinhaCarrinhoAdaptador extends RecyclerView.Adapter<LinhaCarrinhoAd
 
             }
         });
-
 
 
     }
@@ -135,6 +153,8 @@ public class LinhaCarrinhoAdaptador extends RecyclerView.Adapter<LinhaCarrinhoAd
             btnIncrease = itemView.findViewById(R.id.btnAumentaQtd);
             btnDecrease = itemView.findViewById(R.id.btnDiminuiQtd);
             btnDelete = itemView.findViewById(R.id.btnDelete);
+
+
 
         }
     }
