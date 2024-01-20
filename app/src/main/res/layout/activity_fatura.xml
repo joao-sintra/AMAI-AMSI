@@ -28,6 +28,7 @@
 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:text="NomeProduto"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textSize="16sp"
@@ -39,7 +40,7 @@
                             android:layout_height="wrap_content"
                             android:text="Preço"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-
+                            android:gravity="center"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -50,7 +51,7 @@
                             android:layout_height="wrap_content"
                             android:text="IVA"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-
+                            android:gravity="center"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -60,13 +61,14 @@
                             android:layout_height="wrap_content"
                             android:text="Quantidade"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-
+                            android:gravity="center"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:text="Total"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textSize="16sp"
@@ -89,17 +91,15 @@
 
         <TextView
             android:id="@+id/infosFatura"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="wrap_content"
+            android:gravity="left"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="8dp"
             android:text="Informações da Fatura"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerViewLinhasFaturas"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tableLayout"
             app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

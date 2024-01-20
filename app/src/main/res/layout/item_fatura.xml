@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+
     app:cardBackgroundColor="@android:color/darker_gray"
     app:cardElevation="3dp"
     app:cardCornerRadius="8dp">
@@ -12,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="10dp"
         android:padding="16dp">
 
 
@@ -26,8 +28,9 @@
 
             <TextView
                 android:id="@+id/tvNomeFatura"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="left"
                 android:text="Fatura 01"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -36,6 +39,7 @@
                 android:id="@+id/tvDataFatura"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="left"
                 android:text="14/05/2020"
                 android:textSize="14sp"/>
 
@@ -43,6 +47,7 @@
                 android:id="@+id/tvValorFatura"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="left"
                 android:text="Valor"
                 android:textSize="16sp"
                 android:textStyle="italic" />
