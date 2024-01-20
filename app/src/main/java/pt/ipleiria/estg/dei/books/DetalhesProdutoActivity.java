@@ -52,7 +52,7 @@ public class DetalhesProdutoActivity extends AppCompatActivity implements Carrin
             tvDescricaoProduto = findViewById(R.id.tvDescricaoProduto);
             tvDescricaoProduto.setText(produto.getDescricao());
             imgCapaProduto = findViewById(R.id.pic);
-            String imageUrl = "http://172.22.21.211/AMAI-plataformas/frontend/web/public/imagens/produtos/" + produto.getImagem();
+            String imageUrl = "http://"+ SingletonProdutos.getInstance(getApplicationContext()).getApiIP(getApplicationContext()) +"/AMAI-plataformas/frontend/web/public/imagens/produtos/" + produto.getImagem();
 
             Glide.with(getApplicationContext())
                     .load(imageUrl)

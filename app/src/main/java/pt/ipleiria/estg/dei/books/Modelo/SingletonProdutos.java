@@ -102,7 +102,7 @@ public class SingletonProdutos {
 
     //region GETTERS AND SETTERS
 
-    private String getApiIP(Context context) {
+    public String getApiIP(Context context) {
         SharedPreferences preferences = context.getSharedPreferences("api_url", Context.MODE_PRIVATE);
         return preferences.getString("API", null);
     }

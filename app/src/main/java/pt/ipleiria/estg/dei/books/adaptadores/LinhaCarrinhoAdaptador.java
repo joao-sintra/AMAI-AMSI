@@ -69,7 +69,7 @@ public class LinhaCarrinhoAdaptador extends RecyclerView.Adapter<LinhaCarrinhoAd
             holder.tvNomeProdutoCarrinho.setText(produto.getNome());
             holder.tvPrecoProdutoCarrinho.setText(produto.getPreco() + " € - "+String.format("%.2f",(produto.getPreco()*linhaCarrinho.getQuantidade()))+" €");
             holder.tvQuantidadeProdutoCarrinho.setText(linhaCarrinho.getQuantidade() + "");
-            String imageUrl = "http://172.22.21.211/AMAI-plataformas/frontend/web/public/imagens/produtos/" + produto.getImagem();
+            String imageUrl = "http://"+ SingletonProdutos.getInstance(context).getApiIP(context) +"/AMAI-plataformas/frontend/web/public/imagens/produtos/" + produto.getImagem();
             Glide.with(holder.itemView.getContext()).load(imageUrl).transform(new CenterCrop(), new RoundedCorners(30)).into(holder.imgProdutoCarrinho);
         }
 

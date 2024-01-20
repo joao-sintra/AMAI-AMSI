@@ -56,7 +56,7 @@ public class ListaProdutosAdaptador extends RecyclerView.Adapter<ListaProdutosAd
         Produto product = produtos.get(position);
         holder.tvNomeProduto.setText(product.getNome());
         holder.tvPrecoProduto.setText(product.getPreco() + " €");
-        String imageUrl = "http://172.22.21.211/AMAI-plataformas/frontend/web/public/imagens/produtos/" + product.getImagem();
+        String imageUrl = "http://"+ SingletonProdutos.getInstance(context).getApiIP(context) +"/AMAI-plataformas/frontend/web/public/imagens/produtos/" + product.getImagem();
 
         Glide.with(holder.itemView.getContext()).load(imageUrl).transform(new CenterCrop(), new RoundedCorners(30)).into(holder.imgProduto);
 

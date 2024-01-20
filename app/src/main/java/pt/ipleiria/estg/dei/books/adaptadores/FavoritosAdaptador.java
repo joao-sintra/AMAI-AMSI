@@ -19,6 +19,7 @@ import java.util.List;
 import pt.ipleiria.estg.dei.books.Modelo.Favoritos;
 import pt.ipleiria.estg.dei.books.Modelo.FavoritosBDHelper;
 import pt.ipleiria.estg.dei.books.Modelo.Produto;
+import pt.ipleiria.estg.dei.books.Modelo.SingletonProdutos;
 import pt.ipleiria.estg.dei.books.databinding.ItemBestProdutosBinding;
 import pt.ipleiria.estg.dei.books.databinding.ItemFavoritosBinding;
 import pt.ipleiria.estg.dei.books.listeners.FavoritosListener;
@@ -61,7 +62,7 @@ public class FavoritosAdaptador extends RecyclerView.Adapter<FavoritosAdaptador.
     @Override
     public void onBindViewHolder(@NonNull FavoritosAdaptador.ViewHolder holder, int position) {
         Favoritos favorito = favoritos.get(position);
-        String imageUrl = "http://172.22.21.211/AMAI-plataformas/frontend/web/public/imagens/produtos/" + favorito.getImagemProduto();
+        String imageUrl = "http://"+ SingletonProdutos.getInstance(context).getApiIP(context) +"/AMAI-plataformas/frontend/web/public/imagens/produtos/" + favorito.getImagemProduto();
 
         holder.binding.nomeTxt.setText(favorito.getNomeProduto());
         holder.binding.precoTxt.setText(favorito.getPrecoProduto() + "€");
