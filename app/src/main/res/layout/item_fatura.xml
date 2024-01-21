@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="Fatura 01"
+                android:text="@string/txt_fatura"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="14/05/2020"
+                android:text="@string/txt_data_fatura"
                 android:textSize="14sp"/>
 
             <TextView
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="Valor"
+                android:text="@string/txt_fatura_valor"
                 android:textSize="16sp"
                 android:textStyle="italic" />
         </LinearLayout>

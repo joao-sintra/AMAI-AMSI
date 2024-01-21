@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Title"
+                    android:text="@string/txt_title"
                     android:textColor="@color/blue_grey"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -67,7 +67,7 @@
                     android:id="@+id/precoTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="40€"
+                    android:text="@string/txt_40"
                     android:textColor="@color/red"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Detalhes"
+                android:text="@string/txt_detalhes"
                 android:textColor="@color/blue_grey"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -95,8 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Um bolo de chocolate é uma delícia tentadora que combina uma massa macia e fofa, geralmente de cor escura e rica devido ao cacau ou chocolate utilizado.
-                Sua textura pode variar de úmida a aerada, dependendo da receita."
+                android:text="@string/txt_descricao"
                 android:textColor="@color/blue_grey"
                 android:textSize="16sp" />
 

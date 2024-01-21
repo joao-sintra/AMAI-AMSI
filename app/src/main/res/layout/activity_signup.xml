@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="AMAI"
+                    android:text="@string/txt_amai_signup"
                     android:textColor="@color/blue_grey"
                     android:textSize="45sp"
                     android:textStyle="bold" />
@@ -50,7 +50,7 @@
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="App"
+                    android:text="@string/txt_app_signup"
                     android:textColor="@color/blue_grey"
                     android:textSize="45sp" />
             </LinearLayout>
@@ -62,14 +62,13 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginStart="32dp"
-                android:hint="Username"
+                android:hint="@string/hint_username"
                 android:textAlignment="center"
                 android:textColorHint="@color/blue_grey"
                 android:textSize="16sp"
                 android:ems="10"
                 android:background="@drawable/edit_text_background"
-                android:inputType="text"
-                android:text="" />
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/etEmail"
@@ -78,14 +77,13 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginStart="32dp"
-                android:hint="Email"
+                android:hint="@string/hint_email"
                 android:textAlignment="center"
                 android:textColorHint="@color/blue_grey"
                 android:textSize="16sp"
                 android:ems="10"
                 android:background="@drawable/edit_text_background"
-                android:inputType="textEmailAddress"
-                android:text="" />
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/etPassword"
@@ -96,9 +94,8 @@
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/edit_text_background"
                 android:ems="10"
-                android:hint="Password"
+                android:hint="@string/hint_password"
                 android:inputType="textPassword"
-                android:text=""
                 android:textAlignment="center"
                 android:textColorHint="@color/blue_grey"
                 android:textSize="16sp" />
@@ -107,7 +104,7 @@
                 android:id="@+id/signupBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Signup"
+                android:text="@string/txt_btn_signup"
                 android:onClick="onClickSignup"
                 android:background="@drawable/red_button_background"
                 android:layout_marginTop="30dp"
@@ -128,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
-                    android:text="Já tens conta?"
+                    android:text="@string/txt_ja_tens_conta"
                     android:textSize="16sp"
                     android:textColor="@color/blue_grey"/>
 
@@ -136,7 +133,7 @@
                     android:id="@+id/loginTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Login"
+                    android:text="@string/txt_login_signup"
                     android:onClick="onLoginButtonClick"
                     android:textColor="@color/red"
                     android:textSize="16sp"/>

@@ -62,7 +62,7 @@
                         android:id="@+id/tvUsername"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Username"
+                        android:text="@string/txt_perfil_username"
                         android:textColor="#ffffff"
                         android:textSize="20sp"
                         android:textStyle="bold"
@@ -74,7 +74,7 @@
                         android:id="@+id/tvPrimeiroNome"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Primeiro Nome"
+                        android:text="@string/txt_perfil_primeiro_nome"
                         android:textColor="#ffffff"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -86,7 +86,7 @@
                         android:id="@+id/tvApelido"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Apelido"
+                        android:text="@string/txt_perfil_apelido"
                         android:textColor="#ffffff"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -98,7 +98,7 @@
                         android:id="@+id/tvEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Email"
+                        android:text="@string/txt_perfil_email"
                         android:textColor="#ffffff"
                         android:textSize="18sp"
                         app:layout_constraintEnd_toEndOf="@+id/tvApelido"
@@ -174,7 +174,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="8dp"
-                                    android:text="D. Pessoais"
+                                    android:text="@string/txt_perfil_d_pessoais"
                                     android:textAlignment="center"
                                     android:textColor="#000000"
                                     android:textSize="13sp"
@@ -214,7 +214,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="8dp"
-                                    android:text="D. Morada"
+                                    android:text="@string/txt_perfil_d_morada"
                                     android:textAlignment="center"
                                     android:textColor="#000000"
                                     android:textSize="13sp"
@@ -254,7 +254,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="8dp"
-                                    android:text="Ver Faturas"
+                                    android:text="@string/txt_perfil_ver_faturas"
                                     android:textAlignment="center"
                                     android:textColor="#000000"
                                     android:textSize="13sp"
@@ -276,7 +276,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Telemóvel:"
+                                android:text="@string/txt_perfil_telemovel"
                                 android:textColor="#182693"
                                 android:textSize="18sp" />
 
@@ -311,7 +311,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="NIF:"
+                                android:text="@string/txt_perfil_nif"
                                 android:textColor="#182693"
                                 android:textSize="18sp" />
 
@@ -346,7 +346,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Género: "
+                                android:text="@string/txt_perfil_genero"
                                 android:textColor="#182693"
                                 android:textSize="18sp" />
 
@@ -382,7 +382,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Data de Nascimento:"
+                                android:text="@string/txt_perfil_data_de_nascimento"
                                 android:textColor="#182693"
                                 android:textSize="18sp" />
 
@@ -411,7 +411,7 @@
                 android:textColor="#ffffff"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:text="Editar Perfil" />
+                android:text="@string/txt_btn_editar_perfil" />
 
         </LinearLayout>
     </ScrollView>

@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Favoritos"
+            android:text="@string/txt_favoritos"
             android:textAlignment="center"
             android:textColor="@color/blue_grey"
             android:textSize="30sp"
