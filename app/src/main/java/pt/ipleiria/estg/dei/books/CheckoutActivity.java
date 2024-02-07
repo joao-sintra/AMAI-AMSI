@@ -45,6 +45,7 @@ public class CheckoutActivity extends AppCompatActivity implements FaturasListen
                 //metodo api para finalizar encomenda, pagamentos e fatura
                 SingletonProdutos.getInstance(getApplicationContext()).setFaturasListener(faturaListener);
                 SingletonProdutos.getInstance(getApplicationContext()).adicionarFaturaAPI(getApplicationContext());
+
                 SingletonProdutos.getInstance(getApplicationContext()).setPagamentoListener(pagamentoListener);
                 SingletonProdutos.getInstance(getApplicationContext()).adicionarPagamentoAPI(getApplicationContext(), selectedPaymentMethod, selectedShippingMethod);
                 //make a toast
