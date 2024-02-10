@@ -22,6 +22,7 @@ public class CheckoutActivity extends AppCompatActivity implements FaturasListen
     private Button buttonProceedCheckout ;
     private FaturasListener faturaListener;
     private PagamentoListener pagamentoListener;
+    private String selectedShippingMethod, selectedPaymentMethod;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +40,18 @@ public class CheckoutActivity extends AppCompatActivity implements FaturasListen
         buttonProceedCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String selectedShippingMethod = spinnerShippingMethod.getSelectedItem().toString();
-                String selectedPaymentMethod = spinnerPaymentMethod.getSelectedItem().toString();
+                 selectedShippingMethod = spinnerShippingMethod.getSelectedItem().toString();
+                 selectedPaymentMethod = spinnerPaymentMethod.getSelectedItem().toString();
 
                 //metodo api para finalizar encomenda, pagamentos e fatura
                 SingletonProdutos.getInstance(getApplicationContext()).setFaturasListener(faturaListener);
                 SingletonProdutos.getInstance(getApplicationContext()).adicionarFaturaAPI(getApplicationContext());
 
+
                 SingletonProdutos.getInstance(getApplicationContext()).setPagamentoListener(pagamentoListener);
                 SingletonProdutos.getInstance(getApplicationContext()).adicionarPagamentoAPI(getApplicationContext(), selectedPaymentMethod, selectedShippingMethod);
+
+
                 //make a toast
                 Toast.makeText(getApplicationContext(), "Encomenda finalizada com sucesso", Toast.LENGTH_SHORT).show();
                 //i want to send to main activity
